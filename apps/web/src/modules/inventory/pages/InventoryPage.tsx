@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { LayoutDashboard, Package, Warehouse as WarehouseIcon, QrCode, Truck, ClipboardCheck, BarChart3 } from "lucide-react";
 import InventoryStats from "../components/InventoryStats";
 import InventoryDashboard from "../components/InventoryDashboard";
 import ProductTable from "../components/ProductTable";
@@ -6,453 +8,207 @@ import StockMovementForm from "../components/StockMovementForm";
 import StockMovementTable from "../components/StockMovementTable";
 import WarehouseForm from "../components/WarehouseForm";
 import WarehouseTable from "../components/WarehouseTable";
-import InventoryFilters from "../components/InventoryFilters";
 import StockLedgerTable from "../components/StockLedgerTable";
-import UnitForm from "../components/UnitForm";
-import UnitTable from "../components/UnitTable";
-import UnitConversionForm from "../components/UnitConversionForm";
-import UnitConversionTable from "../components/UnitConversionTable";
 import StockAdjustmentForm from "../components/StockAdjustmentForm";
-import StockAdjustmentTable from "../components/StockAdjustmentTable";
 import StockTransferForm from "../components/StockTransferForm";
 import StockTransferTable from "../components/StockTransferTable";
+
+import { WarehouseZoneManager } from "../components/WarehouseZoneManager";
+import { BatchSerialTracker } from "../components/BatchSerialTracker";
+import { ReceivingDispatchDock } from "../components/ReceivingDispatchDock";
+import { CycleCountWorkspace } from "../components/CycleCountWorkspace";
+import { InventoryReportingDashboard } from "../components/InventoryReportingDashboard";
 
 import type {
   StockLedgerEntry,
   StockMovement,
   Warehouse,
 } from "../types/inventory.types";
-
-import type {
-  ProductMaster,
-} from "../types/product.types";
-
-
-import type {
-  Unit,
-} from "../types/unit.types";
-
-
-const units: Unit[] = [
-
-  {
-    id: "1",
-
-    name: "Meter",
-
-    shortName: "m",
-
-    status: "active",
-
-    isBaseUnit: true,
-
-    conversions: [],
-
-    createdAt: "2026-07-23",
-
-    updatedAt: "2026-07-23",
-  },
-
-
-  {
-    id: "2",
-
-    name: "Roll",
-
-    shortName: "roll",
-
-    status: "active",
-
-    isBaseUnit: false,
-
-    conversions: [
-
-      {
-        id: "1",
-
-        fromUnitId: "2",
-
-        toUnitId: "1",
-
-        multiplier: 305,
-
-      },
-
-    ],
-
-    createdAt: "2026-07-23",
-
-    updatedAt: "2026-07-23",
-  },
-
-];
-
-
-
-const unitConversions = [
-  {
-    id: "1",
-
-    fromUnitId: "Roll",
-
-    toUnitId: "Meter",
-
-    multiplier: 305,
-  },
-];
+import type { ProductMaster } from "../types/product.types";
 
 const products: ProductMaster[] = [
   {
     id: "1",
-
-    name: "Laptop",
-
+    name: "Enterprise Laptop Pro",
     sku: "LAP-001",
-
     barcode: "123456789",
-
     type: "single",
-
-
     categoryId: "electronics",
-
     brandId: "generic",
-
     unitId: "piece",
-
-
-    shortDescription:
-      "Business laptop",
-
-    longDescription:
-      "High performance laptop for office and professional use.",
-
-
-    tags: [
-      "electronics",
-      "laptop",
-    ],
-
-
+    shortDescription: "Business laptop",
+    longDescription: "High performance laptop for office and professional use.",
+    tags: ["electronics", "laptop"],
     images: [],
-
     attributes: [],
-
     variants: [],
-
-
     costPrice: 800,
-
     sellingPrice: 950,
-
     wholesalePrice: 900,
-
-
     taxRate: 0,
-
-
     openingStock: 15,
-
     currentStock: 15,
-
     reorderLevel: 5,
-
-
-    warehouseIds: [
-      "1",
-    ],
-
-
-    batchTracking: false,
-
+    warehouseIds: ["1"],
+    batchTracking: true,
     serialTracking: true,
-
-
     warranty: {
       enabled: true,
       duration: 2,
       unit: "years",
     },
-
-
     integration: {
-      syncStatus: "not-synced",
+      syncStatus: "synced",
     },
-
-
-    createdAt:
-      "2026-07-22",
-
-    updatedAt:
-      "2026-07-22",
+    createdAt: "2026-07-22",
+    updatedAt: "2026-07-22",
   },
 ];
-
-
 
 const movements: StockMovement[] = [
   {
     id: "1",
-
     productId: "1",
-
-    productName: "Laptop",
-
+    productName: "Enterprise Laptop Pro",
     warehouseId: "main",
-
     type: "stock-in",
-
-    quantity: 10,
-
+    quantity: 15,
     unitId: "piece",
-
-    baseQuantity: 10,
-
+    baseQuantity: 15,
     referenceType: "adjustment",
-
     referenceId: "ADJ-001",
-
     transactionDate: "2026-07-22",
-
-    note: "Initial stock",
-
+    note: "Initial enterprise stock",
     createdAt: "2026-07-22",
   },
 ];
 
-
-
 const warehouses: Warehouse[] = [
   {
     id: "1",
-
-    name: "Main Warehouse",
-
+    name: "Main Distribution Warehouse",
     code: "WH-001",
-
-    location: "Dhaka",
-
+    location: "Global Logistics Hub A",
     status: "active",
   },
 ];
 
-
-
 const ledger: StockLedgerEntry[] = [
   {
     id: "1",
-
-    productName: "Laptop",
-
-    warehouse:
-      "Main Warehouse",
-
+    productName: "Enterprise Laptop Pro",
+    warehouse: "Main Distribution Warehouse",
     type: "stock-in",
-
-    quantity: 10,
-
-    balance: 25,
-
-    createdAt:
-      "2026-07-22",
+    quantity: 15,
+    balance: 15,
+    createdAt: "2026-07-22",
   },
 ];
 
-
-
 export default function InventoryPage() {
+  const [activeTab, setActiveTab] = useState<string>("dashboard");
 
   return (
-
     <div className="space-y-6">
+      {/* Header Bar */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-[var(--nebula-border)] pb-6">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="rounded-md bg-blue-500/10 px-2.5 py-0.5 text-xs font-semibold text-blue-600">
+              Enterprise Platform
+            </span>
+            <span className="text-xs text-[var(--nebula-muted)]">EPIC-05 — Inventory & Warehouse Intelligence</span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--nebula-text)] mt-1">
+            Enterprise Inventory & Warehouse Management
+          </h1>
+          <p className="text-sm text-[var(--nebula-muted)]">
+            Multi-warehouse zones, bin locations, batch/serial tracking, FEFO picking, cycle counts, and valuation analytics.
+          </p>
+        </div>
 
-
-      {/* Inventory Dashboard — view / analytics layer */}
-
-      <InventoryDashboard />
-
-
-
-      <div>
-
-        <h1 className="text-2xl font-bold">
-          Inventory Management
-        </h1>
-
-
-        <p className="mt-2 text-[var(--nebula-text-secondary)]">
-          Manage products, stock movements, warehouses and inventory records.
-        </p>
-
+        {/* Tab Navigation */}
+        <div className="flex items-center gap-1 bg-[var(--nebula-surface)] p-1.5 rounded-xl border border-[var(--nebula-border)] overflow-x-auto">
+          {[
+            { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+            { id: "products", label: "Products & Stock", icon: Package },
+            { id: "warehouses", label: "Warehouses & Bins", icon: WarehouseIcon },
+            { id: "tracking", label: "Batch & Serials", icon: QrCode },
+            { id: "docks", label: "Receiving & Dispatch", icon: Truck },
+            { id: "audit", label: "Cycle Count", icon: ClipboardCheck },
+            { id: "reports", label: "Valuation & Reports", icon: BarChart3 },
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
+                  isActive
+                    ? "bg-blue-600 text-white shadow-sm"
+                    : "text-[var(--nebula-text)] hover:bg-[var(--nebula-surface-hover)]"
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-
-
-      <InventoryStats
-
-        totalProducts={
-          products.length
-        }
-
-        totalStock={
-          products.reduce(
-            (sum, product) =>
-              sum + product.currentStock,
-            0,
-          )
-        }
-
-        lowStock={0}
-
-        value={
-          products.reduce(
-            (sum, product) =>
-              sum +
-              (
-                product.currentStock *
-                product.sellingPrice
-              ),
-            0,
-          )
-        }
-
-      />
-
-
-
-      {/* Products */}
-
-      <div
-        id="inventory-products"
-        className="space-y-6"
-      >
-
-        <ProductForm />
-
-
-
-        <ProductTable
-
-          products={
-            products
-          }
-
-        />
-
-      </div>
-
-
-
-      {/* Warehouses */}
-
-      <div
-        id="inventory-warehouses"
-        className="space-y-6"
-      >
-
-        <WarehouseForm />
-
-
-
-        <WarehouseTable
-
-          warehouses={
-            warehouses
-          }
-
-        />
-
-      </div>
-
-
-
-      {/* Stock Movement */}
-
-      <div
-        id="inventory-movements"
-        className="space-y-6"
-      >
-
-        <StockMovementForm />
-
-
-
-        <StockMovementTable
-
-          movements={
-            movements
-          }
-
-        />
-
-      </div>
-
-
-
-      {/* Stock Adjustment */}
-
-      <div
-        id="inventory-adjustment"
-        className="space-y-6"
-      >
-
-        <StockAdjustmentForm />
-
-
-        <StockAdjustmentTable />
-
-      </div>
-
-
-
-      {/* Stock Transfer */}
-
-      <div
-        id="inventory-transfer"
-        className="space-y-6"
-      >
-
-        <StockTransferForm />
-
-
-        <StockTransferTable />
-
-      </div>
-
-
-
-      {/* Units & Conversions */}
-
-      <UnitForm />
-
-
-      <UnitTable
-        units={units}
-      />
-
-
-      <UnitConversionForm />
-
-
-      <UnitConversionTable
-        conversions={unitConversions}
-      />
-
-
-      <InventoryFilters />
-
-
-
-      <StockLedgerTable
-
-        entries={
-          ledger
-        }
-
-      />
-
-
+      {/* Main Tab Content */}
+      {activeTab === "dashboard" && (
+        <div className="space-y-6">
+          <InventoryDashboard />
+          <InventoryStats
+            totalProducts={products.length}
+            totalStock={products.reduce((sum, p) => sum + p.currentStock, 0)}
+            lowStock={0}
+            value={products.reduce((sum, p) => sum + (p.currentStock * p.sellingPrice), 0)}
+          />
+        </div>
+      )}
+
+      {activeTab === "products" && (
+        <div className="space-y-6">
+          <ProductForm />
+          <ProductTable products={products} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <StockMovementForm />
+            <StockAdjustmentForm />
+          </div>
+          <StockMovementTable movements={movements} />
+          <StockLedgerTable entries={ledger} />
+        </div>
+      )}
+
+      {activeTab === "warehouses" && (
+        <div className="space-y-6">
+          <WarehouseZoneManager />
+          <WarehouseForm />
+          <WarehouseTable warehouses={warehouses} />
+          <StockTransferForm />
+          <StockTransferTable />
+        </div>
+      )}
+
+      {activeTab === "tracking" && (
+        <BatchSerialTracker />
+      )}
+
+      {activeTab === "docks" && (
+        <ReceivingDispatchDock />
+      )}
+
+      {activeTab === "audit" && (
+        <CycleCountWorkspace />
+      )}
+
+      {activeTab === "reports" && (
+        <InventoryReportingDashboard />
+      )}
     </div>
-
   );
 }
