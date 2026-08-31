@@ -1,20 +1,20 @@
-# Nebula ERP — Future Ideas & Innovation Pipeline
+# Future Ideas & Enhancements Log (Nebula ERP)
 
-This document catalogs future enhancements, exploratory concepts, and advanced capabilities discovered during development across EPIC-01 through EPIC-08.
+This document records future architectural ideas, potential optimizations, and advanced ERP features identified during development.
 
 ---
 
-## 1. AI & Intelligence (EPIC-08)
-- **Natural Language ERP Assistant**: Conversational agent capable of generating journal entries, querying inventory stock across warehouses, and summarizing accounts receivable aging via Gemini API.
-- **Predictive Cash Flow Forecasting**: Machine learning model analyzing historical AR/AP payment timings to forecast liquidity over 30/60/90-day horizons.
-- **Automated Anomaly Detection**: Real-time detection of duplicate invoice submissions, unusual expense claims, and inventory shrinkage patterns.
+## 1. Automated Real-Time FX Rate API Webhooks (NEB-009-FI1)
+- **Description**: Connect the exchange rate service directly to European Central Bank (ECB) and Federal Reserve REST APIs via server webhooks for automated daily rate updates.
+- **Priority**: Medium
+- **Target Epic**: EPIC-01 (Financial Foundation)
 
-## 2. Advanced Financial Operations
-- **Multi-Entity Intercompany Elimination**: Automated consolidation engine for multi-subsidiary enterprise groups with intercompany transfer pricing and currency translation.
-- **Advanced Fixed Asset Depreciation**: Automated calculation of straight-line, declining-balance, and sum-of-years-digits depreciation schedules with asset disposal accounting.
-- **Dynamic Tax Engine**: Integration with global tax calculation engines (VAT, GST, Sales Tax) with automated jurisdiction mapping.
+## 2. Multi-Currency Ledger Revaluation Batch Jobs (NEB-009-FI2)
+- **Description**: Implement scheduled month-end background jobs to automatically calculate unrealized FX gains and losses on all foreign currency accounts and post draft journal entries.
+- **Priority**: High
+- **Target Epic**: EPIC-01 (Financial Foundation)
 
-## 3. Workflow & Integration
-- **Visual Drag-and-Drop Workflow Designer**: Node-based canvas for configuring multi-tier approval routing, conditional notification triggers, and automated document state transitions.
-- **Webhook & Event Bus Architecture**: Event-driven architecture using Kafka or Redis Streams for asynchronous publishing of ERP domain events (e.g. `InvoicePosted`, `StockLow`, `PaymentReceived`).
-- **OpenAPI / GraphQL Federation**: Unified API gateway exposing enterprise modules securely to third-party client integrations and mobile apps.
+## 3. Advanced Supplier Payment Matching ML (NEB-010-FI1)
+- **Description**: Introduce fuzzy matching algorithms for automated bank statement reconciliation against open vendor bills and customer invoices.
+- **Priority**: Low
+- **Target Epic**: EPIC-01 (Financial Foundation)

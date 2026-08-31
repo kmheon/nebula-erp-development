@@ -17,6 +17,7 @@ import ReportsPage from "../modules/reports/pages/ReportsPage";
 import POSPage from "../modules/pos/pages/POSPage";
 import SettlementPage from "../modules/settlement/pages/SettlementPage";
 import { BankingPage } from "../modules/banking";
+import MultiCurrencyPage from "../modules/accounting/pages/MultiCurrencyPage";
 
 import {
   ServiceDeskDashboardPage,
@@ -99,6 +100,10 @@ export const routes = [
   {
     path: "/banking",
     element: BankingPage,
+  },
+  {
+    path: "/currencies",
+    element: MultiCurrencyPage,
   },
 
   /* Service Desk module (foundation) */

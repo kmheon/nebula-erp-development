@@ -194,6 +194,14 @@ export const navigationConfig: NavigationItem[] = [
         permission: permissions.ACCOUNTING_VIEW,
         type: "link",
       },
+      {
+        id: "currencies",
+        name: "Multi-Currency Engine",
+        icon: "Globe",
+        path: "/currencies",
+        permission: permissions.ACCOUNTING_VIEW,
+        type: "link",
+      },
     ],
   },
 

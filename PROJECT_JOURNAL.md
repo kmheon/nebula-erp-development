@@ -4,6 +4,33 @@ This document records the architectural history, implementation logs, business r
 
 ---
 
+## Task Log: NEB-009 — Enterprise Multi-Currency Engine
+
+- **Date**: 2026-08-31
+- **Task ID**: NEB-009
+- **Epic**: EPIC-01 — Financial Foundation
+- **Summary**: Implemented the Enterprise Multi-Currency Engine within the accounting module (`src/modules/accounting/`), providing ISO 4217 currency masters, exchange rate history, daily/historical rates, multi-source rate provider configurations, and a pure currency conversion service supporting base, foreign, and cross-currency conversions.
+- **Architecture Decisions**: Implemented pure conversion services with zero UI coupling and isolated storage keys. Integrated with React Query for server state management and registered `/currencies` in application routes and sidebar navigation.
+- **Files Added**:
+  - `src/modules/accounting/types/currency.types.ts`
+  - `src/modules/accounting/services/currency.service.ts`
+  - `src/modules/accounting/queries/currency.keys.ts`
+  - `src/modules/accounting/hooks/useCurrency.ts`
+  - `src/modules/accounting/components/CurrencyForm.tsx`
+  - `src/modules/accounting/components/ExchangeRateForm.tsx`
+  - `src/modules/accounting/pages/MultiCurrencyPage.tsx`
+- **Files Modified**:
+  - `src/routes/routes.ts`
+  - `src/navigation/navigation.ts`
+  - `src/components/sidebar/NavigationIcons.tsx`
+  - `MASTER_IMPLEMENTATION_ROADMAP.md`
+  - `apps/web/public/.nebula/mission-control.json`
+  - `CHANGELOG.md`
+  - `PROJECT_JOURNAL.md`
+- **Validation**: Build passing, TypeScript passing, ESLint passing.
+
+---
+
 ## Task Log: NEB-008 — Enterprise Cash & Bank Management
 
 - **Date**: 2026-08-31
