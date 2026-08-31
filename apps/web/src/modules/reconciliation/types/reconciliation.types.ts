@@ -1,67 +1,124 @@
 /* ---------------------------------------------------------------- */
-/* Bank Reconciliation Types                                        */
+/* Enterprise Bank Reconciliation Types                             */
 /* ---------------------------------------------------------------- */
 
-/* Bank transaction direction relative to the bank account.         */
-export type BankTransactionType = "credit" | "debit";
+export type BankTransactionType = "credit" | "debit" | "deposit" | "withdrawal" | "transfer" | "charge" | "interest";
 
-/* Lifecycle of a bank transaction during reconciliation.           */
 export type BankTransactionStatus =
   | "unmatched"
   | "matched"
-  | "reconciled";
+  | "reconciled"
+  | "exception"
+  | "ignored"
+  | "suspense";
 
 export interface BankTransaction {
   id: string;
   accountId: string;
+  accountName?: string;
   date: string;
   description: string;
   reference?: string;
+  invoiceNumber?: string;
+  bankReference?: string;
+  partyName?: string; // customer or vendor
   amount: number;
+  currency: string;
+  exchangeRate?: number;
   type: BankTransactionType;
   status: BankTransactionStatus;
+  toleranceApplied?: number;
+  fxDifference?: number;
+  suspenseReason?: string;
   createdAt?: string;
   updatedAt?: string;
 }
 
-/* Input used when manually importing / recording a bank statement  */
-/* line. No id or status is supplied by the caller.                 */
 export interface CreateBankTransactionInput {
   accountId: string;
   date: string;
   description: string;
   reference?: string;
+  invoiceNumber?: string;
+  bankReference?: string;
+  partyName?: string;
   amount: number;
+  currency?: string;
+  exchangeRate?: number;
   type: BankTransactionType;
 }
 
-/* ---------------------------------------------------------------- */
-/* Reconciliation Match Types                                       */
-/* ---------------------------------------------------------------- */
-
-/* Lifecycle of a proposed link between a bank transaction and a    */
-/* Nebula accounting record (journal entry, payment or settlement). */
 export type ReconciliationMatchStatus =
   | "matched"
+  | "split"
+  | "merged"
   | "approved"
-  | "rejected";
+  | "rejected"
+  | "ignored";
 
-/* A proposed or approved reconciliation between an external bank   */
-/* transaction and a Nebula accounting record.                     */
 export interface ReconciliationMatch {
   id: string;
   bankTransactionId: string;
   journalEntryId: string;
   matchedAmount: number;
+  currency: string;
+  exchangeRate: number;
+  fxGainLoss: number;
   status: ReconciliationMatchStatus;
+  matchRuleUsed?: string;
   createdAt?: string;
   updatedAt?: string;
 }
 
-/* Input used to create a reconciliation proposal.                 */
 export interface CreateMatchInput {
   bankTransactionId: string;
   journalEntryId: string;
   matchedAmount: number;
+  currency?: string;
+  exchangeRate?: number;
+  fxGainLoss?: number;
   status?: ReconciliationMatchStatus;
+  matchRuleUsed?: string;
+}
+
+export interface ReconciliationRule {
+  id: string;
+  name: string;
+  description: string;
+  amountTolerancePercent: number;
+  dateToleranceDays: number;
+  matchReference: boolean;
+  matchInvoiceNumber: boolean;
+  matchCustomerVendor: boolean;
+  autoApprove: boolean;
+  isActive: boolean;
+}
+
+export interface ReconciliationException {
+  id: string;
+  bankTransactionId: string;
+  exceptionType: 
+    | "duplicate_payment" 
+    | "missing_payment" 
+    | "overpayment" 
+    | "underpayment" 
+    | "currency_difference" 
+    | "exchange_difference" 
+    | "unmatched" 
+    | "suspense_item";
+  description: string;
+  amount: number;
+  currency: string;
+  status: "open" | "resolved" | "routed_to_suspense";
+  resolvedJournalEntryId?: string;
+  createdAt: string;
+}
+
+export interface ReconciliationAuditLog {
+  id: string;
+  timestamp: string;
+  action: string;
+  entityId: string;
+  performedBy: string;
+  details: string;
 }

@@ -18,6 +18,7 @@ import POSPage from "../modules/pos/pages/POSPage";
 import SettlementPage from "../modules/settlement/pages/SettlementPage";
 import { BankingPage } from "../modules/banking";
 import MultiCurrencyPage from "../modules/accounting/pages/MultiCurrencyPage";
+import { ApprovalPage } from "../modules/approval";
 
 import {
   ServiceDeskDashboardPage,
@@ -127,5 +128,9 @@ export const routes = [
   {
     path: "/service-reports",
     element: ServiceDeskReportsPage,
+  },
+  {
+    path: "/approvals",
+    element: ApprovalPage,
   },
 ];

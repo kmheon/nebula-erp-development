@@ -37,6 +37,16 @@ export const navigationConfig: NavigationItem[] = [
     type: "link",
   },
 
+  // 🛡️ Approvals
+  {
+    id: "approvals",
+    name: "Approvals",
+    icon: "ShieldCheck",
+    path: "/approvals",
+    permission: permissions.DASHBOARD_VIEW,
+    type: "link",
+  },
+
   // ⚡ Operations
   {
     id: "operations",

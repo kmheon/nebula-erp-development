@@ -1,12 +1,8 @@
 export const reconciliationKeys = {
   all: ["reconciliation"] as const,
-
-  bankTransactions: () =>
-    [...reconciliationKeys.all, "bank-transactions"] as const,
-  bankTransaction: (id: string) =>
-    [...reconciliationKeys.bankTransactions(), id] as const,
-
+  transactions: () => [...reconciliationKeys.all, "transactions"] as const,
   matches: () => [...reconciliationKeys.all, "matches"] as const,
-  match: (id: string) =>
-    [...reconciliationKeys.matches(), id] as const,
+  rules: () => [...reconciliationKeys.all, "rules"] as const,
+  exceptions: () => [...reconciliationKeys.all, "exceptions"] as const,
+  audit: () => [...reconciliationKeys.all, "audit"] as const,
 };

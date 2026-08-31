@@ -5,7 +5,6 @@ import { useReconciliationMutations } from "../hooks/useReconciliation";
 import type { Account } from "../../accounting/types/accounting.types";
 
 import type {
-  BankTransactionType,
   CreateBankTransactionInput,
 } from "../types/reconciliation.types";
 
@@ -25,7 +24,7 @@ const initialForm: CreateBankTransactionInput = {
 export default function BankImportForm({
   accounts,
 }: BankImportFormProps) {
-  const { createTransaction } = useReconciliationMutations();
+  const { addBankTransaction } = useReconciliationMutations();
 
   const [form, setForm] =
     useState<CreateBankTransactionInput>(initialForm);
@@ -64,7 +63,7 @@ export default function BankImportForm({
       return;
     }
 
-    createTransaction.mutate(form);
+    addBankTransaction.mutate(form);
     setForm(initialForm);
   }
 
@@ -77,9 +76,15 @@ export default function BankImportForm({
         added later — this form prepares the canonical bank transaction shape.
       </p>
 
+      {error && (
+        <div className="rounded bg-red-50 p-3 text-sm text-red-600">
+          {error}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <select
-          className="w-full rounded border p-2"
+          className="w-full rounded border p-2 bg-[var(--nebula-surface)]"
           value={form.accountId}
           onChange={(e) =>
             updateField("accountId", e.target.value)
@@ -94,68 +99,58 @@ export default function BankImportForm({
         </select>
 
         <input
-          className="w-full rounded border p-2"
+          className="w-full rounded border p-2 bg-[var(--nebula-surface)]"
           type="date"
           value={form.date}
           onChange={(e) => updateField("date", e.target.value)}
         />
 
         <input
-          className="w-full rounded border p-2"
+          className="w-full rounded border p-2 bg-[var(--nebula-surface)] md:col-span-2"
           placeholder="Description"
           value={form.description}
-          onChange={(e) =>
-            updateField("description", e.target.value)
-          }
+          onChange={(e) => updateField("description", e.target.value)}
         />
 
         <input
-          className="w-full rounded border p-2"
+          className="w-full rounded border p-2 bg-[var(--nebula-surface)]"
           placeholder="Reference"
-          value={form.reference ?? ""}
-          onChange={(e) =>
-            updateField("reference", e.target.value)
-          }
+          value={form.reference}
+          onChange={(e) => updateField("reference", e.target.value)}
         />
 
         <input
-          className="w-full rounded border p-2"
+          className="w-full rounded border p-2 bg-[var(--nebula-surface)]"
           type="number"
-          min="0.01"
-          step="0.01"
           placeholder="Amount"
-          value={form.amount}
+          value={form.amount || ""}
           onChange={(e) =>
-            updateField("amount", Number(e.target.value))
+            updateField("amount", parseFloat(e.target.value) || 0)
           }
         />
 
         <select
-          className="w-full rounded border p-2"
+          className="w-full rounded border p-2 bg-[var(--nebula-surface)]"
           value={form.type}
           onChange={(e) =>
-            updateField(
-              "type",
-              e.target.value as BankTransactionType,
-            )
+            updateField("type", e.target.value as CreateBankTransactionInput["type"])
           }
         >
-          <option value="credit">Credit (inflow)</option>
-          <option value="debit">Debit (outflow)</option>
+          <option value="credit">Credit / Deposit</option>
+          <option value="debit">Debit / Withdrawal</option>
+          <option value="deposit">Deposit</option>
+          <option value="withdrawal">Withdrawal</option>
+          <option value="transfer">Transfer</option>
+          <option value="charge">Charge</option>
+          <option value="interest">Interest</option>
         </select>
       </div>
 
-      {error && (
-        <div className="rounded border border-red-300 bg-red-50 p-2 text-sm text-red-700">
-          {error}
-        </div>
-      )}
-
       <button
-        className="rounded bg-black px-4 py-2 text-white"
+        className="rounded bg-[var(--nebula-primary)] px-4 py-2 text-white font-medium hover:opacity-90"
         onClick={submit}
       >
-        Add Bank Transaction
+        Save Transaction
       </button>
     </div>
   );

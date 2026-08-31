@@ -4,6 +4,65 @@ This document records the architectural history, implementation logs, business r
 
 ---
 
+## Task Log: NEB-011 — Enterprise Multi-Tier Approval Workflow Engine
+
+- **Date**: 2026-08-31
+- **Task ID**: NEB-011
+- **Epic**: EPIC-02 — Enterprise Controls
+- **Summary**: Implemented the universal Enterprise Multi-Tier Approval Workflow Engine (`src/modules/approval/`) as a platform-wide service. Designed to power approvals across Purchase, Sales, Accounting, HR, Inventory, Manufacturing, CRM, Payments, Banking, and Settlement. Features include workflow templates, multi-tier approval gates (sequential and parallel), rule condition evaluation (amount, currency, department, risk score, vendor), interactive workflow designer, approval inbox with action handlers (Approve, Reject, Return, Request Changes, Delegate, Escalate), audit history timeline, escalation rules, delegation management, and workflow analytics.
+- **Architecture Decisions**: Designed as a clean modular monolith service module (`src/modules/approval/`). Other modules consume the approval engine via standardized submission and status check hooks. Pure evaluation services enforce zero UI coupling, and robust client storage maintains session persistence across enterprise navigation.
+- **Files Added**:
+  - `src/modules/approval/types/approval.types.ts`
+  - `src/modules/approval/services/approval.service.ts`
+  - `src/modules/approval/queries/approval.keys.ts`
+  - `src/modules/approval/hooks/useApproval.ts`
+  - `src/modules/approval/components/ApprovalDashboard.tsx`
+  - `src/modules/approval/components/WorkflowBuilder.tsx`
+  - `src/modules/approval/components/ApprovalInbox.tsx`
+  - `src/modules/approval/components/ApprovalHistoryView.tsx`
+  - `src/modules/approval/components/ApprovalRuleManager.tsx`
+  - `src/modules/approval/components/ApprovalAnalytics.tsx`
+  - `src/modules/approval/pages/ApprovalPage.tsx`
+  - `src/modules/approval/index.ts`
+- **Files Modified**:
+  - `src/routes/routes.ts`
+  - `src/navigation/navigation.ts`
+  - `src/components/sidebar/NavigationIcons.tsx`
+  - `MASTER_IMPLEMENTATION_ROADMAP.md`
+  - `PROJECT_JOURNAL.md`
+  - `CHANGELOG.md`
+  - `apps/web/public/.nebula/mission-control.json`
+- **Validation**: Build passing, TypeScript passing, ESLint passing.
+
+---
+
+## Task Log: NEB-010 — Enterprise Payment Reconciliation Engine
+
+- **Date**: 2026-08-31
+- **Task ID**: NEB-010
+- **Epic**: EPIC-01 — Financial Foundation
+- **Summary**: Implemented the Enterprise Payment Reconciliation Engine (`src/modules/reconciliation/`), providing automated statement matching, configurable tolerance rules (amount percentage, date proximity, reference matching), manual matching workspace, exception review (duplicates, over/underpayments, suspense routing), settlement integration, accounting journal preparation, and multi-currency FX variance handling.
+- **Architecture Decisions**: Built as a robust reconciliation module adhering to modular monolith principles. Accounting module remains journal owner, banking integration updates reconciliation status without mutating balances, and settlement engine integrates seamlessly.
+- **Files Added**:
+  - `src/modules/reconciliation/types/reconciliation.types.ts`
+  - `src/modules/reconciliation/services/matching.service.ts`
+  - `src/modules/reconciliation/services/reconciliation.service.ts`
+  - `src/modules/reconciliation/queries/reconciliation.keys.ts`
+  - `src/modules/reconciliation/hooks/useReconciliation.ts`
+  - `src/modules/reconciliation/components/ReconciliationDashboard.tsx`
+  - `src/modules/reconciliation/components/StatementImportPreview.tsx`
+  - `src/modules/reconciliation/components/MatchingWorkspace.tsx`
+  - `src/modules/reconciliation/components/ExceptionReview.tsx`
+  - `src/modules/reconciliation/components/ReconciliationReports.tsx`
+- **Files Modified**:
+  - `src/modules/reconciliation/pages/ReconciliationPage.tsx`
+  - `MASTER_IMPLEMENTATION_ROADMAP.md`
+  - `PROJECT_JOURNAL.md`
+  - `CHANGELOG.md`
+- **Validation**: Build passing, TypeScript passing, ESLint passing.
+
+---
+
 ## Task Log: NEB-009 — Enterprise Multi-Currency Engine
 
 - **Date**: 2026-08-31

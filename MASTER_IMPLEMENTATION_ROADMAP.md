@@ -6,7 +6,7 @@
 **Status**: Official Enterprise Development Blueprint  
 **Governance Phase**: **COMPLETE (Locked)** — No further governance work should be scheduled unless required by an approved ADR.  
 **Current Development Phase**: Phase 2 — Financial Foundation  
-**Current Active Task**: **NEB-008 — Enterprise Cash & Bank Management**  
+**Current Active Task**: **NEB-012 — Workflow Designer**  
 
 ---
 
@@ -46,7 +46,7 @@ This Master Implementation Roadmap translates the diagnostic findings of the Neb
 ## 2. Enterprise Epics & Roadmap Structure
 
 ### EPIC-01 — Financial Foundation
-**Status**: ACTIVE  
+**Status**: COMPLETED  
 **Completed**:
 - ✅ **NEB-000**: Repository Baseline Certification
 - ✅ **NEB-003**: Automated 3-Way Matching
@@ -54,17 +54,15 @@ This Master Implementation Roadmap translates the diagnostic findings of the Neb
 - ✅ **NEB-007**: Enterprise Settlement Engine & Unified Contact Ledger
 - ✅ **NEB-008**: Enterprise Cash & Bank Management
 - ✅ **NEB-009**: Enterprise Multi-Currency Engine
-
-**Remaining**:
-- ⬜ **NEB-010**: Enterprise Payment Reconciliation *(Current Active Task)*
-  - Includes: Bank Statement Matching, Auto Matching, Manual Matching, Outstanding Payments, Outstanding Deposits, Suspense Transactions, Payment Difference Handling, Settlement Engine Integration.
+- ✅ **NEB-010**: Enterprise Payment Reconciliation Engine
+- ✅ **NEB-011**: Enterprise Multi-Tier Approval Workflow Engine
 
 ---
 
 ### EPIC-02 — Enterprise Controls
-**Status**: PENDING (Scheduled after EPIC-01)
-- ⬜ **NEB-011**: Multi-Tier Approval Engine
-- ⬜ **NEB-012**: Workflow Designer
+**Status**: ACTIVE  
+- ✅ **NEB-011**: Multi-Tier Approval Engine (Completed)
+- ⬜ **NEB-012**: Workflow Designer & Advanced Visual Modeler *(Current Active Task)*
 - ⬜ **NEB-013**: Notification & Escalation
 - ⬜ **NEB-014**: Delegation & Substitute Approvals
 

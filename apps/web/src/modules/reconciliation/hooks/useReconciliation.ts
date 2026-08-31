@@ -4,42 +4,56 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
+import { reconciliationKeys } from "../queries/reconciliation.keys";
 import {
-  approveMatch,
-  createBankTransaction,
-  createMatch,
   getBankTransactions,
+  createBankTransaction,
   getMatches,
+  createMatch,
+  getReconciliationRules,
+  saveReconciliationRules,
+  getReconciliationExceptions,
+  getReconciliationAuditLogs,
 } from "../services/reconciliation.service";
 
-import { reconciliationKeys } from "../queries/reconciliation.keys";
-
 import type {
-  BankTransaction,
   CreateBankTransactionInput,
   CreateMatchInput,
-  ReconciliationMatch,
+  ReconciliationRule,
 } from "../types/reconciliation.types";
 
 export function useBankTransactions() {
   return useQuery({
-    queryKey: reconciliationKeys.bankTransactions(),
-    queryFn: async () => {
-      const response = await getBankTransactions();
-
-      return response.data;
-    },
+    queryKey: reconciliationKeys.transactions(),
+    queryFn: async () => getBankTransactions().data,
   });
 }
 
 export function useMatches() {
   return useQuery({
     queryKey: reconciliationKeys.matches(),
-    queryFn: async () => {
-      const response = await getMatches();
+    queryFn: async () => getMatches().data,
+  });
+}
 
-      return response.data;
-    },
+export function useReconciliationRulesQuery() {
+  return useQuery({
+    queryKey: reconciliationKeys.rules(),
+    queryFn: async () => getReconciliationRules().data,
+  });
+}
+
+export function useReconciliationExceptionsQuery() {
+  return useQuery({
+    queryKey: reconciliationKeys.exceptions(),
+    queryFn: async () => getReconciliationExceptions().data,
+  });
+}
+
+export function useReconciliationAuditQuery() {
+  return useQuery({
+    queryKey: reconciliationKeys.audit(),
+    queryFn: async () => getReconciliationAuditLogs().data,
   });
 }
 
@@ -50,45 +64,29 @@ export function useReconciliationMutations() {
     queryClient.invalidateQueries({
       queryKey: reconciliationKeys.all,
     });
-
-    /* Reconciliation affects accounting only — keep ledgers fresh.  */
-    queryClient.invalidateQueries({
-      queryKey: ["accounting"],
-    });
   };
 
-  const createTransaction = useMutation({
-    mutationFn: (data: CreateBankTransactionInput) =>
-      createBankTransaction(data),
+  const addBankTransaction = useMutation({
+    mutationFn: async (data: CreateBankTransactionInput) => createBankTransaction(data),
     onSuccess: refresh,
   });
 
   const createReconciliationMatch = useMutation({
-    mutationFn: (data: CreateMatchInput) => createMatch(data),
+    mutationFn: async (data: CreateMatchInput) => createMatch(data),
     onSuccess: refresh,
   });
 
-  const approveReconciliationMatch = useMutation({
-    mutationFn: (id: string) => approveMatch(id, "approved"),
-    onSuccess: refresh,
-  });
-
-  const rejectReconciliationMatch = useMutation({
-    mutationFn: (id: string) => approveMatch(id, "rejected"),
+  const updateRules = useMutation({
+    mutationFn: async (rules: ReconciliationRule[]) => {
+      saveReconciliationRules(rules);
+      return rules;
+    },
     onSuccess: refresh,
   });
 
   return {
-    createTransaction,
+    addBankTransaction,
     createReconciliationMatch,
-    approveReconciliationMatch,
-    rejectReconciliationMatch,
+    updateRules,
   };
 }
-
-export type {
-  BankTransaction,
-  CreateBankTransactionInput,
-  CreateMatchInput,
-  ReconciliationMatch,
-};
