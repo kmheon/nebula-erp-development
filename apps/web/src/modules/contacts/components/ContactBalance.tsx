@@ -1,7 +1,9 @@
 import { useMemo } from "react";
+import { useQueries } from "@tanstack/react-query";
 
 import { usePayments } from "../../payments/hooks/usePayments";
-import { usePaymentAllocations } from "../../payments/hooks/usePayments";
+import { paymentKeys } from "../../payments/queries/payment.keys";
+import { getPaymentAllocations } from "../../payments/services/payment.service";
 import { useSalesOrders } from "../../sales/hooks/useSalesOrder";
 import { usePurchaseOrders } from "../../purchase/hooks/usePurchaseOrder";
 
@@ -155,11 +157,22 @@ export default function ContactBalance({ contact }: ContactBalanceProps) {
  * and flatten).
  */
 function usePaymentAllocationsList(paymentIds: string[]): PaymentAllocation[] {
-  const results: PaymentAllocation[] = [];
+  const queries = useQueries({
+    queries: paymentIds.map((id) => ({
+      queryKey: paymentKeys.allocations(id),
+      queryFn: async () => {
+        const res = await getPaymentAllocations(id);
+        return res.data;
+      },
+      enabled: !!id,
+    })),
+  });
 
-  for (const id of paymentIds) {
-    const { data } = usePaymentAllocations(id);
-    if (data) results.push(...data);
+  const results: PaymentAllocation[] = [];
+  for (const q of queries) {
+    if (q.data) {
+      results.push(...q.data);
+    }
   }
 
   return results;

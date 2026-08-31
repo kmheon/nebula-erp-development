@@ -178,6 +178,14 @@ export const navigationConfig: NavigationItem[] = [
         permission: permissions.RECONCILIATION_VIEW,
         type: "link",
       },
+      {
+        id: "settlement",
+        name: "Settlement Engine",
+        icon: "ArrowLeftRight",
+        path: "/settlement",
+        permission: permissions.PAYMENTS_VIEW,
+        type: "link",
+      },
     ],
   },
 

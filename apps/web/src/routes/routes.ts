@@ -15,6 +15,7 @@ import TaxPage from "../modules/tax/pages/TaxPage";
 import SettingsPage from "../modules/settings/pages/SettingsPage";
 import ReportsPage from "../modules/reports/pages/ReportsPage";
 import POSPage from "../modules/pos/pages/POSPage";
+import SettlementPage from "../modules/settlement/pages/SettlementPage";
 
 import {
   ServiceDeskDashboardPage,
@@ -89,6 +90,10 @@ export const routes = [
   {
     path: "/pos",
     element: POSPage,
+  },
+  {
+    path: "/settlement",
+    element: SettlementPage,
   },
 
   /* Service Desk module (foundation) */

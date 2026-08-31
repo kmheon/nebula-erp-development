@@ -100,13 +100,14 @@ $$\text{Priority Score} = \frac{\text{BV} + \text{AV} + \text{TR} + \text{DE} + 
 
 | Task ID | Title | Description | Affected Modules | Risk | Complexity | Dependencies |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **NEB-000** | Repository Hygiene & Baseline Audit [COMPLETED] | Comprehensive repository hygiene certification, artifact cleanup, build & lint verification. | All Modules | Low | Low | None |
 | **NEB-001** | Unify Supplier Domain with Contact Registry [COMPLETED] | Migrate supplier CRUD and types to use the canonical Contact Registry ACL (`src/integrations/supplier/`). | `purchase`, `contacts`, `integrations` | Medium | Medium | None |
 | **NEB-002** | Implement Closed Accounting Period Locks [COMPLETED] | Add period status (`open`, `locked`, `closed`) enforcement to journal posting services. | `accounting`, `settings` | Low | Low | None |
 | **NEB-003** | Automated 3-Way Matching Engine [COMPLETED] | Build verification logic matching PO line items, GRN quantities, and Vendor Bill amounts. | `purchase`, `accounting` | High | High | NEB-001 |
 | **NEB-004** | Virtualized Ledger Data Grids [COMPLETED] | Integrate `@tanstack/react-virtual` into General Ledger and Stock Movement tables. | `accounting`, `inventory`, `shared` | Low | Medium | None |
 | **NEB-005** | Standardized Query Key Factories | Ensure all modules implement strict query key factories for reliable cache invalidation. | All Modules | Low | Low | None |
 | **NEB-006** | Landed Cost Allocation Service [COMPLETED] | Implement freight/duty cost distribution across received goods in goods receipt notes. | `purchase`, `inventory`, `accounting` | Med | High | NEB-001 |
-| **NEB-007** | Multi-Currency Revaluation Module [COMPLETED] | Calculate unrealized exchange gains/losses for foreign currency receivables/payables. | `accounting`, `reports` | Med | High | None |
+| **NEB-007** | Enterprise Settlement Engine & Unified Contact Ledger [COMPLETED] | Shared settlement engine supporting FIFO, LIFO, Due Date allocation policies, auto-netting, and audit history. | `settlement`, `accounting`, `sales`, `purchase`, `contacts` | High | High | NEB-001 |
 | **NEB-008** | Multi-Tier Approval Workflows | Introduce configurable approval matrices for high-value POs and journal entries. | `purchase`, `accounting`, `sales` | Med | High | None |
 
 ---
