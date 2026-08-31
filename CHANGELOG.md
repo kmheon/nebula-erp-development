@@ -5,6 +5,8 @@ All notable changes to Nebula ERP will be documented in this file.
 ## [1.0.0-enterprise] — 2026-08-31
 
 ### Added
+- **Architecture Decision Record (ADR) System (NEB-GOV-02)**: Implemented permanent ADR repository under `/docs/adr/` containing 000-template, 001-modular-monolith, 002-shared-kernel, 003-anti-corruption-layer, 004-query-architecture, 005-enterprise-settlement-engine, and 006-financial-foundation-roadmap. Mandated ADR creation for all major architectural changes in `AGENTS.md` and `DEVELOPMENT_GOVERNANCE.md`.
+- **Permanent Development Governance & 7-Phase Lifecycle**: Locked in mandatory 7-phase development lifecycle (Discovery, Implementation, Validation, Knowledge Update, Mission Control, Project Journal, Roadmap) and definition of done in `AGENTS.md` and `/docs/DEVELOPMENT_GOVERNANCE.md`.
 - **Roadmap Revision & Governance (NEB-001A)**: Structured roadmap into Enterprise Epics (EPIC-01 through EPIC-08), established mandatory documentation governance, created `PROJECT_JOURNAL.md`, and locked in the financial foundation prerequisite rule over workflow controls.
 - **Financial Foundation Roadmap Reorganization**: Reorganized roadmap into Enterprise Epics (EPIC-01 through EPIC-08), prioritizing core financial infrastructure before workflow control engines.
 - **Enterprise Cash & Bank Management (NEB-008)**: Initialized planning and specification for multi-bank accounts, cash registers, cheque clearing, internal transfers, and bank statement handling integrated with the Settlement Engine.

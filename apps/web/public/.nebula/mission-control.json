@@ -4,7 +4,7 @@
   "currentDevelopmentPhase": "Phase 2: Financial Foundation",
   "currentEpic": "EPIC-01 — Financial Foundation",
   "currentRoadmapTask": "NEB-008: Enterprise Cash & Bank Management",
-  "lastCompletedTask": "NEB-007: Enterprise Settlement Engine & Unified Contact Ledger",
+  "lastCompletedTask": "NEB-GOV-02: Architecture Decision Record (ADR) System",
   "nextRecommendedTask": "NEB-009: Enterprise Multi-Currency Engine",
   "currentSprint": "Sprint 2026-W35",
   "gitBranch": "main",
@@ -24,10 +24,11 @@
     "EPIC-08": "15% (Future Research)"
   },
   "recentlyCompletedTasks": [
+    "NEB-GOV-02: Architecture Decision Record (ADR) System",
+    "NEB-GOV-01: Permanent Development Governance & 7-Phase Lifecycle",
     "NEB-007: Enterprise Settlement Engine & Unified Contact Ledger",
     "NEB-006: Enterprise Landed Cost Allocation Service",
-    "NEB-003: Automated 3-Way Matching Engine",
-    "NEB-000: Repository Baseline Certification"
+    "NEB-003: Automated 3-Way Matching Engine"
   ],
   "projectHealth": {
     "architecture": "Excellent (Modular Monolith & ACL enforced)",
@@ -77,5 +78,14 @@
     { "title": "Agent Rules & Architecture Mandate", "path": "/AGENTS.md", "status": "up_to_date" },
     { "title": "Changelog", "path": "/CHANGELOG.md", "status": "up_to_date" },
     { "title": "Enterprise Settlement Spec", "path": "/apps/web/src/modules/settlement/types/settlement.types.ts", "status": "complete" }
+  ],
+  "architectureDecisionRecords": [
+    { "id": "ADR-000", "title": "Architecture Decision Record Template", "status": "Accepted", "path": "/docs/adr/000-template.md" },
+    { "id": "ADR-001", "title": "Modular Monolith Architecture", "status": "Accepted", "path": "/docs/adr/001-modular-monolith.md" },
+    { "id": "ADR-002", "title": "Shared Kernel & Cross-Cutting Services", "status": "Accepted", "path": "/docs/adr/002-shared-kernel.md" },
+    { "id": "ADR-003", "title": "Anti-Corruption Layer (ACL)", "status": "Accepted", "path": "/docs/adr/003-anti-corruption-layer.md" },
+    { "id": "ADR-004", "title": "Query Architecture & State Management", "status": "Accepted", "path": "/docs/adr/004-query-architecture.md" },
+    { "id": "ADR-005", "title": "Enterprise Settlement Engine & Unified Contact Ledger", "status": "Accepted", "path": "/docs/adr/005-enterprise-settlement-engine.md" },
+    { "id": "ADR-006", "title": "Financial Foundation Prioritization over Workflow Controls", "status": "Accepted", "path": "/docs/adr/006-financial-foundation-roadmap.md" }
   ]
 }

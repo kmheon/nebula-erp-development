@@ -4,6 +4,57 @@ This document records the architectural history, implementation logs, business r
 
 ---
 
+## Task Log: NEB-GOV-02 — Architecture Decision Record (ADR) System
+
+- **Date**: 2026-08-31
+- **Task ID**: NEB-GOV-02
+- **Epic**: EPIC-01 — Financial Foundation & Governance
+- **Summary**: Implemented a permanent Architecture Decision Record (ADR) system under `/docs/adr/` consisting of 000-template, 001-modular-monolith, 002-shared-kernel, 003-anti-corruption-layer, 004-query-architecture, 005-enterprise-settlement-engine, and 006-financial-foundation-roadmap. Updated AGENTS.md, DEVELOPMENT_GOVERNANCE.md, and Mission Control to mandate and display ADRs.
+- **Architecture Decisions**: Formalized ADR repository rules requiring any major architectural change to create or update an ADR in `/docs/adr/`.
+- **Business Rules**: All major architectural decisions must be permanently documented via ADRs in the repository.
+- **Files Added**: 
+  - `docs/adr/000-template.md`
+  - `docs/adr/001-modular-monolith.md`
+  - `docs/adr/002-shared-kernel.md`
+  - `docs/adr/003-anti-corruption-layer.md`
+  - `docs/adr/004-query-architecture.md`
+  - `docs/adr/005-enterprise-settlement-engine.md`
+  - `docs/adr/006-financial-foundation-roadmap.md`
+- **Files Modified**: 
+  - `AGENTS.md`
+  - `docs/DEVELOPMENT_GOVERNANCE.md`
+  - `CHANGELOG.md`
+  - `PROJECT_JOURNAL.md`
+  - `docs/PROJECT_JOURNAL.md`
+  - `apps/web/public/.nebula/mission-control.json`
+- **Documentation Updated**: ADR Registry, Agent Instructions, Development Governance, Changelog, Project Journal, Mission Control.
+- **Lessons Learned**: Centralizing architectural rationale in version-controlled ADRs prevents design drift and preserves institutional memory.
+- **Future Ideas**: Automated validation script verifying that every ADR references valid task IDs and modules.
+
+---
+
+## Task Log: NEB-GOV-01 — Permanent Development Governance & 7-Phase Lifecycle
+
+- **Date**: 2026-08-31
+- **Task ID**: NEB-GOV-01
+- **Epic**: EPIC-01 — Financial Foundation & Governance
+- **Summary**: Established permanent project governance and the mandatory 7-phase development lifecycle (Discovery, Implementation, Validation, Knowledge Update, Mission Control, Project Journal, Roadmap) along with the definition of done and mandatory return format.
+- **Architecture Decisions**: Enforced strict 7-phase gating for all future tasks to guarantee zero technical debt and self-documenting modular monolith architecture.
+- **Business Rules**: No implementation decision may exist only inside AI conversation history; repository must remain fully self-contained.
+- **Files Added**: 
+  - `docs/DEVELOPMENT_GOVERNANCE.md`
+- **Files Modified**: 
+  - `AGENTS.md`
+  - `CHANGELOG.md`
+  - `PROJECT_JOURNAL.md`
+  - `docs/PROJECT_JOURNAL.md`
+  - `apps/web/public/.nebula/mission-control.json`
+- **Documentation Updated**: Agent Instructions, Development Governance, Changelog, Project Journal, Mission Control.
+- **Lessons Learned**: Formalizing the lifecycle protocol eliminates ambiguity and ensures consistent enterprise engineering standards across sessions.
+- **Future Ideas**: Automated pre-commit hook validation for documentation updates and test coverage.
+
+---
+
 ## Task Log: NEB-001A — Roadmap Revision & Governance
 
 - **Date**: 2026-08-31
