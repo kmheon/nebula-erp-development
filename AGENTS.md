@@ -8,13 +8,14 @@ Nebula ERP is an AI-native, enterprise-grade, modular ERP platform designed to c
 My responsibility is **NOT merely writing code.**
 
 ## Architectural Mandate
-1. **Protect architectural integrity:** Prevent technical debt and strictly maintain domain boundaries.
+1. **Protect architectural integrity:** Prevent technical debt and strictly maintain domain boundaries and strict module ownership.
 2. **Enterprise Standards:** Follow SOLID, Domain-Driven Design (DDD), Clean Architecture, and Modular Monolith principles.
 3. **Design for Scale:** Ensure future microservice extraction, multi-tenancy, extensibility, and security are built into the foundation.
 4. **Think Like the Giants:** Before proposing any implementation, ask: *"Would SAP, Microsoft, or Oracle build it this way?"* If not, improve the design.
 5. **Long-term Vision:** Never optimize for short-term coding convenience. Optimize for long-term maintainability.
 6. **Documentation-Driven:** Maintain system documentation and create Architecture Decision Records (ADRs) in `/docs/adr/` for all critical choices. Any major architectural change must create or update an ADR.
-7. **No Invented Features:** Base every decision strictly on the repository and explicit business requirements.
+7. **Strict Code Ownership & Reuse:** Modules strictly own their internal code; cross-module access occurs only through public APIs (`index.ts`), Shared Kernel, or ACL. Always search for and reuse existing implementations before creating new code.
+8. **No Invented Features:** Base every decision strictly on the repository and explicit business requirements.
 
 ## 7-Phase Development Lifecycle & Governance
 Every future task MUST strictly follow these 7 phases:

@@ -1,8 +1,8 @@
 # Nebula ERP — Permanent Development Governance
 
 **Document Version**: 1.0.0-enterprise  
-**Status**: PERMANENTLY LOCKED  
-**Scope**: Mandatory lifecycle and governance rules for all future development tasks in Nebula ERP.
+**Status**: PERMANENTLY LOCKED (NEB-GOV-04)  
+**Governance Scope**: Complete. Future governance changes require an approved Architecture Decision Record (ADR). All development effort is now directed toward ERP business functionality.
 
 ---
 
@@ -85,18 +85,54 @@ Every completed task must:
 
 ---
 
+## 1.5 Enterprise Code Ownership & Architectural Enforcement
+
+### Code Ownership
+Every domain module strictly owns its own:
+- Types, Services, Hooks, Queries
+- Components, Pages
+- Business Rules, Documentation, Tests
+
+Other modules must NEVER modify another module's internal logic directly. Cross-module communication must occur exclusively through:
+- Shared Kernel (`src/core/`)
+- Anti-Corruption Layer (`src/integrations/`)
+- Approved shared services & public APIs (`index.ts`)
+
+### Dependency Analysis Rules
+Before modifying any file, every implementation must:
+1. Identify all affected files.
+2. Analyze imports and exports.
+3. Analyze dependencies and potential circular references.
+4. Search for reusable implementations.
+5. Review the owning module and related ADRs.
+6. Check Mission Control impact analysis.
+
+*No code should be written before dependency analysis is complete.*
+
+### Reuse Policy
+Before creating any component, service, hook, query, table, form, dialog, card, type, or utility, search the repository. If a reusable implementation exists, extend it. Do not duplicate functionality.
+
+### Business Rule Policy
+Every new business rule must be documented. If implementation changes system behavior, update `docs/BUSINESS_RULES.md`, module documentation, and Project Journal.
+
+### Public API Policy
+Each module exposes functionality only through its public API (`index.ts`). No deep imports into another module's internals.
+
+### Commenting Standard
+Write detailed comments explaining **WHY**, business purpose, and architecture reasoning. Avoid comments that merely restate the code.
+
+---
+
 ## 2. Definition of Done
 A task is **NOT complete** until:
 1. Code implemented
 2. Build passes
 3. TypeScript passes
 4. ESLint passes
-5. Documentation updated
-6. Roadmap updated
-7. Project Journal updated
-8. Mission Control updated
-9. Future ideas logged
-10. Business rules documented
+5. Existing components reused where appropriate
+6. No duplicated logic & module boundaries maintained
+7. Documentation updated (Roadmap, Project Journal, Mission Control, ADR reviewed, Business Rules updated)
+8. Future ideas logged
 
 ---
 

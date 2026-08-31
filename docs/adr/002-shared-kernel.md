@@ -1,31 +1,46 @@
-# ADR-002: Shared Kernel & Cross-Cutting Services
+# ADR-002: Shared Kernel
+
+## ADR Number
+ADR-002
+
+## Title
+Shared Kernel
 
 ## Status
 Accepted
 
-## Context
-As Nebula ERP expands across multiple enterprise domains, cross-cutting concerns (currency formatting, audit logging, toast notifications, API clients, base UI components) risk being duplicated across modules.
+## Date
+2026-02-01
 
-## Problem
-Duplication of core utility logic leads to inconsistent formatting, divergent error handling, and bloated bundle sizes.
+## Context
+As Nebula ERP expands across multiple enterprise domains, cross-cutting concerns (currency formatting, audit logging, toast notifications, base API clients, and UI design primitives) risk being duplicated across modules.
+
+## Problem Statement
+Duplicating utility and UI code across domain modules leads to inconsistent formatting, divergent error handling, increased bundle size, and maintenance friction.
 
 ## Decision
-Establish a rigorous **Shared Kernel** (`src/core/` and `src/components/ui/`) containing standardized utilities, common DTOs, base hooks, and design token primitives that can be safely consumed by all modules without violating domain isolation.
+Establish a centralized Shared Kernel (`src/core/` and `src/components/ui/`) containing standardized utilities, common DTOs, base hooks, and design token primitives safely consumed by all domain modules without violating domain isolation.
 
 ## Alternatives Considered
-1. **Module-Specific Duplication**: Rejected to maintain DRY principles and consistent UI/UX.
-2. **External Monolithic Library**: Rejected to keep repository self-contained and modular.
+1. Module-Specific Duplication (Rejected to maintain DRY principles and UI consistency).
+2. External Monolithic Packages (Rejected to keep repository self-contained and atomic).
 
 ## Consequences
 - **Positive**: Unified code quality, consistent currency/date formatting, and cohesive enterprise styling.
 - **Negative**: Changes to shared kernel components impact all modules, requiring careful regression testing.
-- **Risks**: Over-coupling domain modules through shared utilities.
 
-## Related Modules
-- Core Shared (`src/core/`), UI Library (`src/components/ui/`), and all domain modules.
+## Risks
+- Over-coupling domain modules through shared utility leakage.
+
+## Future Considerations
+- Periodically audit shared kernel to ensure pure utility status and prevent business domain logic from leaking into global packages.
 
 ## Related Tasks
 - NEB-000, NEB-001A
 
-## Future Notes
-- Periodically audit shared kernel to ensure domain logic does not leak into global utility packages.
+## Related Modules
+- Core Shared (`src/core/`), UI Library (`src/components/ui/`), and all domain modules.
+
+## Related Documentation
+- `/docs/adr/002-shared-kernel.md`
+- `/docs/ARCHITECTURE_DECISIONS.md`

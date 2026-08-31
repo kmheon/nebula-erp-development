@@ -4,6 +4,9 @@
 **Author**: Principal Software Architect & Technical Lead, Nebula ERP  
 **Target Audience**: Development Teams, AI Coding Agents, Architecture Reviewers  
 **Status**: Official Enterprise Development Blueprint  
+**Governance Phase**: **COMPLETE (Locked)** — No further governance work should be scheduled unless required by an approved ADR.  
+**Current Development Phase**: Phase 2 — Financial Foundation  
+**Current Active Task**: **NEB-008 — Enterprise Cash & Bank Management**  
 
 ---
 

@@ -1,28 +1,46 @@
 # ADR-000: Architecture Decision Record Template
 
+## ADR Number
+ADR-000
+
+## Title
+Architecture Decision Record Template
+
 ## Status
-[Draft | Proposed | Accepted | Rejected | Superseded]
+Accepted
+
+## Date
+2026-08-31
 
 ## Context
-[Describe the context and background surrounding the architectural decision.]
+Nebula ERP operates as an enterprise-grade modular monolith. Standardizing architectural decision documentation ensures long-term maintainability and institutional memory.
 
-## Problem
-[Describe the specific technical or business problem that requires an architectural decision.]
+## Problem Statement
+Without a standardized ADR template, architectural decisions are made ad-hoc, leading to undocumented technical debt, design drift, and loss of institutional rationale over time.
 
 ## Decision
-[State the clear architectural decision made.]
+Establish ADR-000 as the canonical template for all architectural decisions in Nebula ERP. Every future major architectural change must create a new ADR following this exact structure.
 
 ## Alternatives Considered
-[List alternative approaches considered and why they were not chosen.]
+1. Informal chat history records (Rejected: lost across conversations).
+2. Unstructured wiki pages (Rejected: decoupled from repository version control).
 
 ## Consequences
-[Detail positive benefits, negative trade-offs, and risks introduced by this decision.]
+- **Positive**: Complete traceability of architectural choices, clear design rationale, and frictionless onboarding for new developers and AI agents.
+- **Negative**: Slight overhead in documentation writing.
 
-## Related Modules
-[List modules affected by this decision.]
+## Risks
+- ADRs becoming outdated if not updated when architecture evolves.
+
+## Future Considerations
+- Automated pre-commit checks to validate ADR numbering and linkage.
 
 ## Related Tasks
-[List roadmap task IDs related to this decision.]
+- NEB-GOV-02 (Enterprise ADR System)
 
-## Future Notes
-[Notes on future evolution, refactoring targets, or extraction paths.]
+## Related Modules
+- All modules across Nebula ERP.
+
+## Related Documentation
+- `/docs/DEVELOPMENT_GOVERNANCE.md`
+- `/AGENTS.md`
