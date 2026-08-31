@@ -1,0 +1,16 @@
+{
+  "projectName": "Nebula ERP",
+  "version": "1.0.0-enterprise",
+  "currentDevelopmentPhase": "Phase 2: Core Financial & Operational Modules",
+  "currentEpic": "Enterprise Financials & Supply Chain Intelligence",
+  "currentRoadmapTask": "NEB-008: Multi-Tier Approval Workflows",
+  "lastCompletedTask": "NEB-007: Multi-Currency Revaluation Module",
+  "nextRecommendedTask": "NEB-008: Multi-Tier Approval Workflows",
+  "currentSprint": "Sprint 2026-W35",
+  "gitBranch": "main",
+  "buildStatus": "passing",
+  "typescriptStatus": "passing",
+  "eslintStatus": "passing",
+  "testStatus": "passing",
+  "overallProgressPercent": 78
+}

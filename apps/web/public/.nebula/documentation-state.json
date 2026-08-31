@@ -1,0 +1,9 @@
+{
+  "documents": [
+    { "title": "Master Implementation Roadmap", "path": "/MASTER_IMPLEMENTATION_ROADMAP.md", "status": "up_to_date" },
+    { "title": "Agent Rules & Architecture Mandate", "path": "/AGENTS.md", "status": "up_to_date" },
+    { "title": "Landed Cost Allocation Spec", "path": "/apps/web/src/modules/purchase/types/landedCost.types.ts", "status": "complete" },
+    { "title": "Multi-Currency Revaluation Spec", "path": "/apps/web/src/modules/accounting/types/revaluation.types.ts", "status": "complete" }
+  ],
+  "documentationScore": 90
+}

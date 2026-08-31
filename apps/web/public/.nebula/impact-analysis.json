@@ -1,0 +1,6 @@
+{
+  "impacts": {
+    "accounting": { "imports": ["core", "api"], "exports": ["RevaluationService", "AccountingService", "LedgerService"], "dependencies": ["core"], "affectedModules": ["reports", "dashboard"], "risks": ["Journal imbalance", "FX currency drift"] },
+    "purchase": { "imports": ["core", "inventory", "accounting"], "exports": ["LandedCostService", "MatchingService", "PurchaseService"], "dependencies": ["inventory", "accounting"], "affectedModules": ["accounting", "inventory"], "risks": ["3-way matching tolerance mismatch"] }
+  }
+}

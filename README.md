@@ -1,11 +1,103 @@
-<div align="center">
+# Nebula ERP
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Nebula ERP is a modular, self-hosted ERP platform designed for businesses to manage operations including inventory, CRM, accounting, sales, and future business workflows.
 
-  <h1>Built with AI Studio</h2>
+## Project Vision
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+Nebula ERP is built around a flexible foundation for evolving business operations, with a focus on:
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+- Modular architecture
+- Enterprise scalability
+- Flexible business rules
+- Automation
+- Data-driven operations
 
-</div>
+## Technology Stack
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+
+### Architecture
+
+- Turborepo
+- pnpm workspace
+
+## Current Modules
+
+### CRM
+
+**Status:** Foundation completed
+
+### Accounting
+
+**Status:** Foundation completed
+
+### Inventory
+
+**Status:** Active development
+
+- Product Master
+- Warehouse Management
+- Stock Movement Engine
+- Stock Ledger
+- Unit Management
+- Custom Unit Conversion
+- Chained Unit Conversion
+
+## Inventory Architecture
+
+```text
+Product Master
+        |
+        v
+Stock Movement
+        |
+        v
+Stock Ledger
+        |
+        v
+Inventory Intelligence
+```
+
+Inventory transactions are designed to support:
+
+- Purchase receiving
+- Sales deduction
+- POS transactions
+- Transfers
+- Adjustments
+
+## Development Setup
+
+Install dependencies:
+
+```bash
+pnpm install
+```
+
+Start development:
+
+```bash
+pnpm dev
+```
+
+Create a production build:
+
+```bash
+pnpm build
+```
+
+## Repository Structure
+
+```text
+apps/web    Frontend application
+packages    Shared workspace packages
+```
+
+## Development Philosophy
+
+Nebula ERP aims to provide ERP functionality with flexible architecture instead of fixed business rules. The platform is designed to let business processes and future workflows evolve without requiring a rigid, one-size-fits-all model.

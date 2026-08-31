@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    { "id": "NEB-001", "name": "Core ERP Architecture & Modular Monolith Foundation", "status": "completed", "epic": "Foundation", "module": "core", "priority": "High" },
+    { "id": "NEB-002", "name": "Enterprise Chart of Accounts & General Ledger", "status": "completed", "epic": "Accounting", "module": "accounting", "priority": "High" },
+    { "id": "NEB-003", "name": "Automated 3-Way Matching Engine", "status": "completed", "epic": "Purchase", "module": "purchase", "priority": "High" },
+    { "id": "NEB-004", "name": "Virtualized Ledger Data Grids", "status": "completed", "epic": "Shared / Performance", "module": "accounting", "priority": "Low" },
+    { "id": "NEB-005", "name": "Standardized Query Key Factories", "status": "completed", "epic": "Architecture", "module": "all", "priority": "Low" },
+    { "id": "NEB-006", "name": "Landed Cost Allocation Service", "status": "completed", "epic": "Supply Chain", "module": "purchase", "priority": "Med" },
+    { "id": "NEB-007", "name": "Multi-Currency Revaluation Module", "status": "completed", "epic": "Accounting", "module": "accounting", "priority": "Med" },
+    { "id": "NEB-008", "name": "Multi-Tier Approval Workflows", "status": "in_progress", "epic": "Governance", "module": "purchase", "priority": "Med" },
+    { "id": "NEB-009", "name": "Inter-Company Elimination Engine", "status": "pending", "epic": "Consolidation", "module": "accounting", "priority": "High" },
+    { "id": "NEB-010", "name": "Advanced Fixed Asset Depreciation Schedules", "status": "pending", "epic": "Assets", "module": "assets", "priority": "Med" }
+  ]
+}

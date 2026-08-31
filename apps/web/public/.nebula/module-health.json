@@ -1,0 +1,23 @@
+{
+  "modules": [
+    { "name": "accounting", "completion": 92, "health": "excellent", "files": 28, "services": 5, "components": 14 },
+    { "name": "purchase", "completion": 88, "health": "excellent", "files": 22, "services": 4, "components": 10 },
+    { "name": "sales", "completion": 85, "health": "good", "files": 18, "services": 3, "components": 8 },
+    { "name": "inventory", "completion": 90, "health": "excellent", "files": 25, "services": 4, "components": 12 },
+    { "name": "crm", "completion": 80, "health": "good", "files": 12, "services": 2, "components": 6 },
+    { "name": "payments", "completion": 85, "health": "good", "files": 15, "services": 3, "components": 7 },
+    { "name": "assets", "completion": 75, "health": "stable", "files": 10, "services": 2, "components": 5 },
+    { "name": "reports", "completion": 82, "health": "good", "files": 14, "services": 3, "components": 6 }
+  ],
+  "scores": {
+    "architecture": 95,
+    "documentation": 90,
+    "testing": 85,
+    "frontend": 92,
+    "backend": 94,
+    "api": 90,
+    "database": 92,
+    "modules": 88,
+    "overallRepository": 91
+  }
+}

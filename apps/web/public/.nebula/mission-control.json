@@ -1,0 +1,59 @@
+{
+  "projectName": "Nebula ERP",
+  "version": "1.0.0-enterprise",
+  "currentDevelopmentPhase": "Phase 2: Core Financial & Operational Modules",
+  "currentEpic": "Enterprise Financials & Supply Chain Intelligence",
+  "currentRoadmapTask": "NEB-008: Multi-Tier Approval Workflows",
+  "lastCompletedTask": "NEB-007: Multi-Currency Revaluation Module",
+  "nextRecommendedTask": "NEB-008: Multi-Tier Approval Workflows",
+  "currentSprint": "Sprint 2026-W35",
+  "gitBranch": "main",
+  "buildStatus": "passing",
+  "typescriptStatus": "passing",
+  "eslintStatus": "passing",
+  "testStatus": "passing",
+  "overallProgressPercent": 78,
+  "roadmapTasks": [
+    { "id": "NEB-001", "name": "Core ERP Architecture & Modular Monolith Foundation", "status": "completed", "epic": "Foundation", "module": "core", "priority": "High" },
+    { "id": "NEB-002", "name": "Enterprise Chart of Accounts & General Ledger", "status": "completed", "epic": "Accounting", "module": "accounting", "priority": "High" },
+    { "id": "NEB-003", "name": "Automated 3-Way Matching Engine", "status": "completed", "epic": "Purchase", "module": "purchase", "priority": "High" },
+    { "id": "NEB-004", "name": "Virtualized Ledger Data Grids", "status": "completed", "epic": "Shared / Performance", "module": "accounting", "priority": "Low" },
+    { "id": "NEB-005", "name": "Standardized Query Key Factories", "status": "completed", "epic": "Architecture", "module": "all", "priority": "Low" },
+    { "id": "NEB-006", "name": "Landed Cost Allocation Service", "status": "completed", "epic": "Supply Chain", "module": "purchase", "priority": "Med" },
+    { "id": "NEB-007", "name": "Multi-Currency Revaluation Module", "status": "completed", "epic": "Accounting", "module": "accounting", "priority": "Med" },
+    { "id": "NEB-008", "name": "Multi-Tier Approval Workflows", "status": "in_progress", "epic": "Governance", "module": "purchase", "priority": "Med" },
+    { "id": "NEB-009", "name": "Inter-Company Elimination Engine", "status": "pending", "epic": "Consolidation", "module": "accounting", "priority": "High" },
+    { "id": "NEB-010", "name": "Advanced Fixed Asset Depreciation Schedules", "status": "pending", "epic": "Assets", "module": "assets", "priority": "Med" }
+  ],
+  "modules": [
+    { "name": "accounting", "completion": 92, "health": "excellent", "files": 28, "services": 5, "components": 14 },
+    { "name": "purchase", "completion": 88, "health": "excellent", "files": 22, "services": 4, "components": 10 },
+    { "name": "sales", "completion": 85, "health": "good", "files": 18, "services": 3, "components": 8 },
+    { "name": "inventory", "completion": 90, "health": "excellent", "files": 25, "services": 4, "components": 12 },
+    { "name": "crm", "completion": 80, "health": "good", "files": 12, "services": 2, "components": 6 },
+    { "name": "payments", "completion": 85, "health": "good", "files": 15, "services": 3, "components": 7 },
+    { "name": "assets", "completion": 75, "health": "stable", "files": 10, "services": 2, "components": 5 },
+    { "name": "reports", "completion": 82, "health": "good", "files": 14, "services": 3, "components": 6 }
+  ],
+  "scores": {
+    "architecture": 95,
+    "documentation": 90,
+    "testing": 85,
+    "frontend": 92,
+    "backend": 94,
+    "api": 90,
+    "database": 92,
+    "modules": 88,
+    "overallRepository": 91
+  },
+  "risks": [
+    "FX volatility across multi-currency ledgers",
+    "Approval matrix deadlock on purchase orders"
+  ],
+  "documentation": [
+    { "title": "Master Implementation Roadmap", "path": "/MASTER_IMPLEMENTATION_ROADMAP.md", "status": "up_to_date" },
+    { "title": "Agent Rules & Architecture Mandate", "path": "/AGENTS.md", "status": "up_to_date" },
+    { "title": "Landed Cost Allocation Spec", "path": "/apps/web/src/modules/purchase/types/landedCost.types.ts", "status": "complete" },
+    { "title": "Multi-Currency Revaluation Spec", "path": "/apps/web/src/modules/accounting/types/revaluation.types.ts", "status": "complete" }
+  ]
+}

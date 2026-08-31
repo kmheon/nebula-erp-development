@@ -1,0 +1,21 @@
+{
+  "nodes": [
+    { "id": "core", "label": "Core Kernel", "group": "foundation" },
+    { "id": "accounting", "label": "Accounting & GL", "group": "finance" },
+    { "id": "purchase", "label": "Procurement & Purchase", "group": "operations" },
+    { "id": "sales", "label": "Sales & Billing", "group": "operations" },
+    { "id": "inventory", "label": "Inventory & Stock", "group": "operations" },
+    { "id": "payments", "label": "Payments & Settlement", "group": "finance" },
+    { "id": "assets", "label": "Fixed Assets", "group": "finance" },
+    { "id": "reports", "label": "Financial Reports", "group": "analytics" }
+  ],
+  "edges": [
+    { "from": "purchase", "to": "accounting" },
+    { "from": "sales", "to": "accounting" },
+    { "from": "purchase", "to": "inventory" },
+    { "from": "sales", "to": "inventory" },
+    { "from": "payments", "to": "accounting" },
+    { "from": "assets", "to": "accounting" },
+    { "from": "accounting", "to": "reports" }
+  ]
+}
