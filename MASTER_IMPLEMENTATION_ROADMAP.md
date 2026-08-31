@@ -96,7 +96,7 @@ $$\text{Priority Score} = \frac{\text{BV} + \text{AV} + \text{TR} + \text{DE} + 
 
 ---
 
-## 5. Atomic Task Breakdown
+## 5. Enterprise Epics & Atomic Task Breakdown
 
 | Task ID | Title | Description | Affected Modules | Risk | Complexity | Dependencies |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
