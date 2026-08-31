@@ -5,6 +5,7 @@ All notable changes to Nebula ERP will be documented in this file.
 ## [1.0.0-enterprise] — 2026-08-31
 
 ### Added
+- **Roadmap Revision & Governance (NEB-001A)**: Structured roadmap into Enterprise Epics (EPIC-01 through EPIC-08), established mandatory documentation governance, created `PROJECT_JOURNAL.md`, and locked in the financial foundation prerequisite rule over workflow controls.
 - **Financial Foundation Roadmap Reorganization**: Reorganized roadmap into Enterprise Epics (EPIC-01 through EPIC-08), prioritizing core financial infrastructure before workflow control engines.
 - **Enterprise Cash & Bank Management (NEB-008)**: Initialized planning and specification for multi-bank accounts, cash registers, cheque clearing, internal transfers, and bank statement handling integrated with the Settlement Engine.
 - **Enterprise Settlement Engine & Unified Contact Ledger (NEB-007)**: Reusable shared settlement service supporting FIFO, LIFO, Due Date, Proportional, and Manual allocation policies, automatic customer/vendor net position calculation, and audit trails.
