@@ -16,6 +16,7 @@ import SettingsPage from "../modules/settings/pages/SettingsPage";
 import ReportsPage from "../modules/reports/pages/ReportsPage";
 import POSPage from "../modules/pos/pages/POSPage";
 import SettlementPage from "../modules/settlement/pages/SettlementPage";
+import { BankingPage } from "../modules/banking";
 
 import {
   ServiceDeskDashboardPage,
@@ -94,6 +95,10 @@ export const routes = [
   {
     path: "/settlement",
     element: SettlementPage,
+  },
+  {
+    path: "/banking",
+    element: BankingPage,
   },
 
   /* Service Desk module (foundation) */

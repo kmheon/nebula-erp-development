@@ -4,6 +4,34 @@ This document records the architectural history, implementation logs, business r
 
 ---
 
+## Task Log: NEB-008 — Enterprise Cash & Bank Management
+
+- **Date**: 2026-08-31
+- **Task ID**: NEB-GOV-08 (NEB-008)
+- **Epic**: EPIC-01 — Financial Foundation
+- **Summary**: Implemented the Enterprise Cash & Bank Management module (`src/modules/banking/`), supporting multiple bank accounts, cash registers, petty cash accounts, internal bank transfers, deposits, withdrawals, bank charges, interest, and automated general ledger journal entry posting. Integrated with sidebar navigation and navigation icon registry.
+- **Architecture Decisions**: Built as an independent domain module adhering to modular monolith principles, using React Query for server state and automatic GL journal posting via accounting service integration.
+- **Files Added**:
+  - `src/modules/banking/types/banking.types.ts`
+  - `src/modules/banking/queries/banking.keys.ts`
+  - `src/modules/banking/services/banking.service.ts`
+  - `src/modules/banking/hooks/useBanking.ts`
+  - `src/modules/banking/components/BankAccountForm.tsx`
+  - `src/modules/banking/components/BankTransactionForm.tsx`
+  - `src/modules/banking/components/BankAccountsTable.tsx`
+  - `src/modules/banking/components/BankTransactionsTable.tsx`
+  - `src/modules/banking/pages/BankingPage.tsx`
+  - `src/modules/banking/index.ts`
+- **Files Modified**:
+  - `src/routes/routes.ts`
+  - `src/navigation/navigation.ts`
+  - `src/components/sidebar/NavigationIcons.tsx`
+  - `MASTER_IMPLEMENTATION_ROADMAP.md`
+  - `apps/web/public/.nebula/mission-control.json`
+- **Validation**: Build passing, TypeScript passing, ESLint passing.
+
+---
+
 ## Milestone: Governance Framework Complete (NEB-GOV-04)
 
 - **Date**: 2026-08-31

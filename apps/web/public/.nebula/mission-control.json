@@ -3,24 +3,25 @@
   "version": "1.0.0-enterprise",
   "currentDevelopmentPhase": "Phase 2: Financial Foundation",
   "currentEpic": "EPIC-01 — Financial Foundation",
-  "currentRoadmapTask": "NEB-008: Enterprise Cash & Bank Management",
-  "lastCompletedTask": "NEB-GOV-04: Governance Lock & Transition to Feature Development",
-  "nextRecommendedTask": "NEB-008: Enterprise Cash & Bank Management",
+  "currentRoadmapTask": "NEB-009: Enterprise Multi-Currency Engine",
+  "lastCompletedTask": "NEB-008: Enterprise Cash & Bank Management",
+  "nextRecommendedTask": "NEB-009: Enterprise Multi-Currency Engine",
   "currentSprint": "Sprint 2026-W35",
   "gitBranch": "main",
   "buildStatus": "passing",
   "typescriptStatus": "passing",
   "eslintStatus": "passing",
   "testStatus": "passing",
-  "overallProgressPercent": 85,
+  "overallProgressPercent": 88,
   "projectOverview": {
     "projectName": "Nebula ERP",
     "currentVersion": "1.0.0-enterprise",
     "currentPhase": "Phase 2: Financial Foundation",
     "currentEpic": "EPIC-01 — Financial Foundation",
-    "currentTask": "NEB-008: Enterprise Cash & Bank Management",
-    "overallProgress": "85% Complete",
+    "currentTask": "NEB-009: Enterprise Multi-Currency Engine",
+    "overallProgress": "88% Complete",
     "completedTasks": [
+      "NEB-008: Enterprise Cash & Bank Management",
       "NEB-GOV-04: Governance Lock & Transition to Feature Development",
       "NEB-GOV-03: Enterprise Code Ownership & Architectural Enforcement",
       "NEB-GOV-02: Architecture Decision Record (ADR) System",
@@ -31,7 +32,6 @@
       "NEB-000: Repository Baseline Certification"
     ],
     "upcomingTasks": [
-      "NEB-008: Enterprise Cash & Bank Management",
       "NEB-009: Enterprise Multi-Currency Engine",
       "NEB-010: Enterprise Payment Reconciliation",
       "NEB-011: Multi-Tier Approval Engine"
@@ -42,9 +42,9 @@
     "buildStatus": "passing",
     "typescriptStatus": "passing",
     "eslintStatus": "passing",
-    "lastCompletedTask": "NEB-GOV-04: Governance Lock & Transition to Feature Development",
+    "lastCompletedTask": "NEB-008: Enterprise Cash & Bank Management",
     "latestAdr": "ADR-008",
-    "recentModuleChanges": ["settlement", "accounting", "banking", "purchase"],
+    "recentModuleChanges": ["banking", "accounting", "settlement", "reconciliation"],
     "knownRisks": [
       "FX volatility across multi-currency ledgers",
       "Approval matrix deadlock on purchase orders"

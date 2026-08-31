@@ -186,6 +186,14 @@ export const navigationConfig: NavigationItem[] = [
         permission: permissions.PAYMENTS_VIEW,
         type: "link",
       },
+      {
+        id: "banking",
+        name: "Cash & Banking",
+        icon: "Landmark",
+        path: "/banking",
+        permission: permissions.ACCOUNTING_VIEW,
+        type: "link",
+      },
     ],
   },
 

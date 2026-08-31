@@ -52,11 +52,10 @@ This Master Implementation Roadmap translates the diagnostic findings of the Neb
 - ✅ **NEB-003**: Automated 3-Way Matching
 - ✅ **NEB-006**: Enterprise Landed Cost Allocation
 - ✅ **NEB-007**: Enterprise Settlement Engine & Unified Contact Ledger
+- ✅ **NEB-008**: Enterprise Cash & Bank Management
 
 **Remaining**:
-- ⬜ **NEB-008**: Enterprise Cash & Bank Management *(Current Active Task)*
-  - Includes: Multiple Bank Accounts, Cash Accounts, Petty Cash, Bank Transfers, Internal Transfers, Deposits, Withdrawals, Cash Register, Cheques, Bank Charges, Interest, Cash Journals, Bank Statement Import, Bank Reconciliation, Settlement Integration, Accounting Integration.
-- ⬜ **NEB-009**: Enterprise Multi-Currency Engine
+- ⬜ **NEB-009**: Enterprise Multi-Currency Engine *(Current Active Task)*
   - Includes: Exchange Rate Tables, Historical Rates, Manual Rates, Automatic Rate Providers, Currency Revaluation, Unrealized Gain/Loss, Realized Gain/Loss, Multi-Currency Settlement, Multi-Currency Reporting.
 - ⬜ **NEB-010**: Enterprise Payment Reconciliation
   - Includes: Bank Statement Matching, Auto Matching, Manual Matching, Outstanding Payments, Outstanding Deposits, Suspense Transactions, Payment Difference Handling, Settlement Engine Integration.
