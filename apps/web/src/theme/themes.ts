@@ -11,6 +11,11 @@
 
 export type ThemeId =
   | "neon-orange"
+  | "slate-executive"
+  | "azure-enterprise"
+  | "emerald-modern"
+  | "midnight-luxe"
+  | "obsidian-dark"
   | "forest-graphite"
   | "signal-violet"
   | "inkberry"
@@ -54,6 +59,91 @@ export const themes: Record<ThemeId, Theme> = {
       "--nebula-text-secondary": "#6B5340",
       "--nebula-text-muted": "#A78F77",
       "--nebula-border": "#F0E2CB",
+    },
+  },
+  "slate-executive": {
+    id: "slate-executive",
+    name: "Slate Executive",
+    tokens: {
+      "--nebula-primary": "#2563EB",
+      "--nebula-primary-hover": "#1D4ED8",
+      "--nebula-secondary": "#475569",
+      "--nebula-accent": "#38BDF8",
+      "--nebula-background": "#F8FAFC",
+      "--nebula-surface": "#FFFFFF",
+      "--nebula-surface-muted": "#F1F5F9",
+      "--nebula-text-primary": "#0F172A",
+      "--nebula-text-secondary": "#475569",
+      "--nebula-text-muted": "#94A3B8",
+      "--nebula-border": "#E2E8F0",
+    },
+  },
+  "azure-enterprise": {
+    id: "azure-enterprise",
+    name: "Azure Enterprise",
+    tokens: {
+      "--nebula-primary": "#0284C7",
+      "--nebula-primary-hover": "#0369A1",
+      "--nebula-secondary": "#0EA5E9",
+      "--nebula-accent": "#F59E0B",
+      "--nebula-background": "#F0F9FF",
+      "--nebula-surface": "#FFFFFF",
+      "--nebula-surface-muted": "#E0F2FE",
+      "--nebula-text-primary": "#082F49",
+      "--nebula-text-secondary": "#0369A1",
+      "--nebula-text-muted": "#7DD3FC",
+      "--nebula-border": "#BAE6FD",
+    },
+  },
+  "emerald-modern": {
+    id: "emerald-modern",
+    name: "Emerald Modern",
+    tokens: {
+      "--nebula-primary": "#059669",
+      "--nebula-primary-hover": "#047857",
+      "--nebula-secondary": "#10B981",
+      "--nebula-accent": "#FBBF24",
+      "--nebula-background": "#F0FDF4",
+      "--nebula-surface": "#FFFFFF",
+      "--nebula-surface-muted": "#DCFCE7",
+      "--nebula-text-primary": "#064E3B",
+      "--nebula-text-secondary": "#047857",
+      "--nebula-text-muted": "#6EE7B7",
+      "--nebula-border": "#A7F3D0",
+    },
+  },
+  "midnight-luxe": {
+    id: "midnight-luxe",
+    name: "Midnight Luxe",
+    tokens: {
+      "--nebula-primary": "#D97706",
+      "--nebula-primary-hover": "#B45309",
+      "--nebula-secondary": "#92400E",
+      "--nebula-accent": "#FBBF24",
+      "--nebula-background": "#0F172A",
+      "--nebula-surface": "#1E293B",
+      "--nebula-surface-muted": "#334155",
+      "--nebula-text-primary": "#F8FAFC",
+      "--nebula-text-secondary": "#CBD5E1",
+      "--nebula-text-muted": "#64748B",
+      "--nebula-border": "#334155",
+    },
+  },
+  "obsidian-dark": {
+    id: "obsidian-dark",
+    name: "Obsidian Dark",
+    tokens: {
+      "--nebula-primary": "#6366F1",
+      "--nebula-primary-hover": "#4F46E5",
+      "--nebula-secondary": "#4338CA",
+      "--nebula-accent": "#A5B4FC",
+      "--nebula-background": "#09090B",
+      "--nebula-surface": "#18181B",
+      "--nebula-surface-muted": "#27272A",
+      "--nebula-text-primary": "#FAFAFA",
+      "--nebula-text-secondary": "#A1A1AA",
+      "--nebula-text-muted": "#71717A",
+      "--nebula-border": "#27272A",
     },
   },
   "forest-graphite": {

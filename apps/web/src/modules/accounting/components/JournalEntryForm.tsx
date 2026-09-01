@@ -1,6 +1,15 @@
 import { useMemo, useState } from "react";
-
+import { Plus, Trash2, BookOpen } from "lucide-react";
 import { useJournalMutation } from "../hooks/useJournalEntries";
+import {
+  AppCard,
+  AppInput,
+  AppSelect,
+  AppButton,
+  AppIconButton,
+  AppBadge,
+  AppAlert,
+} from "../../../components/ui";
 
 import type {
   Account,
@@ -98,7 +107,7 @@ export default function JournalEntryForm({
 
     if (Math.abs(debit - credit) > 0.001) {
       setError(
-        `Cannot save unbalanced entry. Debit (${debit}) must equal Credit (${credit}).`,
+        `Cannot save unbalanced entry. Debit (${debit.toFixed(2)}) must equal Credit (${credit.toFixed(2)}).`,
       );
       return;
     }
@@ -119,131 +128,143 @@ export default function JournalEntryForm({
   const balanced = Math.abs(totalDebit - totalCredit) < 0.001;
 
   return (
-    <div className="surface p-5 space-y-4">
-      <h2 className="text-xl font-bold">Add Journal Entry</h2>
-
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-        <input
-          className="w-full rounded border p-2"
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          placeholder="Date"
-        />
-
-        <input
-          className="w-full rounded border p-2"
-          placeholder="Reference"
-          value={reference}
-          onChange={(e) => setReference(e.target.value)}
-        />
-
-        <input
-          className="w-full rounded border p-2"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <div className="hidden grid-cols-12 gap-2 px-2 text-sm font-semibold md:grid">
-          <span className="col-span-6">Account</span>
-          <span className="col-span-2 text-right">Debit</span>
-          <span className="col-span-2 text-right">Credit</span>
-          <span className="col-span-2" />
-        </div>
-
-        {lines.map((line, index) => (
-          <div
-            key={index}
-            className="grid grid-cols-1 gap-2 md:grid-cols-12 md:items-center"
-          >
-            <select
-              className="w-full rounded border p-2 md:col-span-6"
-              value={line.accountId}
-              onChange={(e) =>
-                updateLine(index, "accountId", e.target.value)
-              }
-            >
-              <option value="">Select Account</option>
-              {accounts.map((account) => (
-                <option key={account.id} value={account.id}>
-                  {account.code} - {account.name}
-                </option>
-              ))}
-            </select>
-
-            <input
-              className="w-full rounded border p-2 text-right md:col-span-2"
-              type="number"
-              min={0}
-              step="0.01"
-              placeholder="0.00"
-              value={line.debit}
-              onChange={(e) => updateLine(index, "debit", e.target.value)}
-            />
-
-            <input
-              className="w-full rounded border p-2 text-right md:col-span-2"
-              type="number"
-              min={0}
-              step="0.01"
-              placeholder="0.00"
-              value={line.credit}
-              onChange={(e) =>
-                updateLine(index, "credit", e.target.value)
-              }
-            />
-
-            <button
-              type="button"
-              className="rounded border px-3 py-2 text-sm md:col-span-2"
-              onClick={() => removeLine(index)}
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-
-        <button
-          type="button"
-          className="rounded border px-3 py-2 text-sm"
-          onClick={addLine}
-        >
-          + Add Line
-        </button>
-      </div>
-
-      <div className="flex items-center justify-between border-t pt-3 text-sm">
-        <div>
-          <span className="mr-4">Total Debit: ${totalDebit.toFixed(2)}</span>
-          <span>Total Credit: ${totalCredit.toFixed(2)}</span>
-        </div>
-
-        <span
-          className={
-            balanced
-              ? "rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700"
-              : "rounded bg-red-100 px-2 py-1 text-xs font-medium text-red-700"
-          }
-        >
-          {balanced ? "Balanced" : "Unbalanced"}
+    <AppCard
+      title={
+        <span className="flex items-center gap-2">
+          <BookOpen size={18} />
+          Record New Journal Entry
         </span>
-      </div>
+      }
+      subtitle="Create balanced double-entry transactions posted directly to general ledger accounts."
+    >
+      <div className="space-y-5">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <AppInput
+            type="date"
+            label="Transaction Date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
 
-      {error && (
-        <div className="rounded border border-red-300 bg-red-50 p-2 text-sm text-red-700">
-          {error}
+          <AppInput
+            label="Reference #"
+            placeholder="e.g. JE-2026-0042"
+            value={reference}
+            onChange={(e) => setReference(e.target.value)}
+          />
+
+          <AppInput
+            label="Description / Narration"
+            placeholder="e.g. Monthly rent allocation"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
-      )}
 
-      <button
-        className="rounded bg-black px-4 py-2 text-white"
-        onClick={submit}
-      >
-        Create Journal Entry
-      </button>
-    </div>
+        <div className="space-y-3 pt-2">
+          <div className="hidden grid-cols-12 gap-3 px-2 text-xs font-semibold uppercase tracking-wider text-[var(--nebula-text-secondary)] md:grid">
+            <span className="col-span-6">GL Account</span>
+            <span className="col-span-2 text-right">Debit ($)</span>
+            <span className="col-span-2 text-right">Credit ($)</span>
+            <span className="col-span-2 text-center">Action</span>
+          </div>
+
+          {lines.map((line, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-1 gap-3 rounded-lg border border-[var(--nebula-border)] bg-[var(--nebula-surface-muted)]/50 p-3 md:grid-cols-12 md:items-center"
+            >
+              <div className="md:col-span-6">
+                <AppSelect
+                  value={line.accountId}
+                  onChange={(e) =>
+                    updateLine(index, "accountId", e.target.value)
+                  }
+                >
+                  <option value="">Select Account</option>
+                  {accounts.map((account) => (
+                    <option key={account.id} value={account.id}>
+                      {account.code} - {account.name}
+                    </option>
+                  ))}
+                </AppSelect>
+              </div>
+
+              <div className="md:col-span-2">
+                <AppInput
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  className="text-right font-mono"
+                  placeholder="0.00"
+                  value={line.debit}
+                  onChange={(e) => updateLine(index, "debit", e.target.value)}
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <AppInput
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  className="text-right font-mono"
+                  placeholder="0.00"
+                  value={line.credit}
+                  onChange={(e) =>
+                    updateLine(index, "credit", e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="flex justify-center md:col-span-2">
+                <AppIconButton
+                  icon={<Trash2 size={16} />}
+                  variant="ghost"
+                  aria-label="Remove line"
+                  onClick={() => removeLine(index)}
+                  disabled={lines.length <= 1}
+                />
+              </div>
+            </div>
+          ))}
+
+          <AppButton
+            type="button"
+            variant="outline"
+            size="sm"
+            leftIcon={<Plus size={14} />}
+            onClick={addLine}
+          >
+            Add Line
+          </AppButton>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between rounded-lg border border-[var(--nebula-border)] bg-[var(--nebula-surface-muted)] p-4 text-sm font-medium">
+          <div className="flex items-center gap-6 font-mono">
+            <span>Total Debit: <strong className="text-[var(--nebula-text-primary)]">${totalDebit.toFixed(2)}</strong></span>
+            <span>Total Credit: <strong className="text-[var(--nebula-text-primary)]">${totalCredit.toFixed(2)}</strong></span>
+          </div>
+
+          <AppBadge tone={balanced ? "success" : "danger"}>
+            {balanced ? "✓ Balanced" : "⚠ Unbalanced"}
+          </AppBadge>
+        </div>
+
+        {error && (
+          <AppAlert tone="danger">
+            {error}
+          </AppAlert>
+        )}
+
+        <div className="flex justify-end pt-2">
+          <AppButton
+            variant="primary"
+            onClick={submit}
+          >
+            Create Journal Entry
+          </AppButton>
+        </div>
+      </div>
+    </AppCard>
   );
 }

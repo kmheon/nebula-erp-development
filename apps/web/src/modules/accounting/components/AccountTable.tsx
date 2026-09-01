@@ -1,50 +1,59 @@
 import type { Account } from "../types/accounting.types";
+import { AppTable, type Column, AppBadge } from "../../../components/ui";
 
 type AccountTableProps = {
   accounts: Account[];
 };
 
 export default function AccountTable({ accounts }: AccountTableProps) {
+  const columns: Column<Account>[] = [
+    {
+      key: "code",
+      header: "Code",
+      className: "font-mono font-medium text-[var(--nebula-text-primary)]",
+      render: (account) => account.code,
+    },
+    {
+      key: "name",
+      header: "Account Name",
+      className: "font-medium text-[var(--nebula-text-primary)]",
+      render: (account) => account.name,
+    },
+    {
+      key: "type",
+      header: "Type",
+      render: (account) => (
+        <AppBadge variant="outline" size="sm" className="capitalize">
+          {account.type}
+        </AppBadge>
+      ),
+    },
+    {
+      key: "status",
+      header: "Status",
+      render: (account) => (
+        <AppBadge
+          tone={account.status === "active" ? "success" : "neutral"}
+          size="sm"
+          className="capitalize"
+        >
+          {account.status}
+        </AppBadge>
+      ),
+    },
+  ];
+
   return (
-    <div className="surface overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-3 text-left">Code</th>
-            <th className="p-3 text-left">Name</th>
-            <th className="p-3 text-left">Type</th>
-            <th className="p-3 text-left">Status</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {accounts.map((account) => (
-            <tr key={account.id} className="border-b">
-              <td className="p-3 font-medium">{account.code}</td>
-
-              <td className="p-3">{account.name}</td>
-
-              <td className="p-3">
-                <span className="rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
-                  {account.type}
-                </span>
-              </td>
-
-              <td className="p-3">
-                <span
-                  className={
-                    account.status === "active"
-                      ? "rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700"
-                      : "rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600"
-                  }
-                >
-                  {account.status}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <AppTable
+      columns={columns}
+      data={accounts}
+      keyExtractor={(item) => item.id}
+      emptyState={
+        <div className="py-8 text-center text-sm text-[var(--nebula-text-muted)]">
+          No accounts found.
+        </div>
+      }
+    />
   );
 }
+

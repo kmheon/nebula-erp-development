@@ -3,31 +3,50 @@
   --nebula-primary: #2563eb;
   --nebula-primary-hover: #1d4ed8;
   --nebula-secondary: #7c3aed;
+  --nebula-accent: #38bdf8;
 
-  /* Background */
+  /* Background & Surface */
   --nebula-background: #f8fafc;
   --nebula-surface: #ffffff;
   --nebula-surface-muted: #f1f5f9;
+  --nebula-surface-elevated: #ffffff;
 
   /* Text */
   --nebula-text-primary: #0f172a;
   --nebula-text-secondary: #475569;
   --nebula-text-muted: #94a3b8;
 
-  /* Border */
+  /* Border & Divider */
   --nebula-border: #e2e8f0;
+  --nebula-border-subtle: #f1f5f9;
+  --nebula-divider: #e2e8f0;
 
   /* Status */
   --nebula-success: #16a34a;
+  --nebula-success-bg: rgba(22, 163, 74, 0.1);
+  --nebula-success-text: #15803d;
+
   --nebula-warning: #d97706;
+  --nebula-warning-bg: rgba(217, 119, 6, 0.1);
+  --nebula-warning-text: #b45309;
+
   --nebula-danger: #dc2626;
+  --nebula-danger-bg: rgba(220, 38, 38, 0.1);
+  --nebula-danger-text: #b91c1c;
+
   --nebula-info: #0284c7;
+  --nebula-info-bg: rgba(2, 132, 199, 0.1);
+  --nebula-info-text: #0369a1;
+
+  /* Focus Ring */
+  --nebula-focus-ring: rgba(37, 99, 235, 0.35);
 
   /* Radius */
   --nebula-radius-sm: 6px;
   --nebula-radius-md: 10px;
   --nebula-radius-lg: 16px;
   --nebula-radius-xl: 24px;
+  --nebula-radius-full: 9999px;
 
   /* Shadows */
   --nebula-shadow-sm:
@@ -49,4 +68,8 @@
   --nebula-space-8: 32px;
   --nebula-space-10: 40px;
   --nebula-space-12: 48px;
+
+  /* Transitions */
+  --nebula-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --nebula-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }

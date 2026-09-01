@@ -113,16 +113,10 @@ export default function InventoryPage() {
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-[var(--nebula-border)] pb-6">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="rounded-md bg-blue-500/10 px-2.5 py-0.5 text-xs font-semibold text-blue-600">
-              Enterprise Platform
-            </span>
-            <span className="text-xs text-[var(--nebula-muted)]">EPIC-05 — Inventory & Warehouse Intelligence</span>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--nebula-text)] mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--nebula-text)]">
             Enterprise Inventory & Warehouse Management
           </h1>
-          <p className="text-sm text-[var(--nebula-muted)]">
+          <p className="text-sm text-[var(--nebula-muted)] mt-1">
             Multi-warehouse zones, bin locations, batch/serial tracking, FEFO picking, cycle counts, and valuation analytics.
           </p>
         </div>

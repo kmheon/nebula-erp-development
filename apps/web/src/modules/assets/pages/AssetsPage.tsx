@@ -1,10 +1,16 @@
 import { useState } from "react";
-
+import { Plus, Package, Layers, TrendingDown, DollarSign } from "lucide-react";
 import AssetForm from "../components/AssetForm";
 import AssetTable from "../components/AssetTable";
 import AssetCategoryForm from "../components/AssetCategoryForm";
 import AssetCategoryTable from "../components/AssetCategoryTable";
 import DepreciationOverview from "../components/DepreciationOverview";
+import {
+  AppPageHeader,
+  AppStatCard,
+  AppTabs,
+  AppButton,
+} from "../../../components/ui";
 
 import {
   useAssets,
@@ -19,6 +25,7 @@ import type {
 } from "../types/asset.types";
 
 export default function AssetsPage() {
+  const [activeTab, setActiveTab] = useState<string>("register");
   const { data: assets = [] } = useAssets();
   const { data: categories = [] } = useAssetCategories();
 
@@ -26,11 +33,14 @@ export default function AssetsPage() {
   const { remove: removeCategory } = useAssetCategoryMutation();
 
   const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
+  const [showAssetForm, setShowAssetForm] = useState(false);
   const [editingCategory, setEditingCategory] =
     useState<AssetCategory | null>(null);
+  const [showCategoryForm, setShowCategoryForm] = useState(false);
 
   function handleEditAsset(asset: Asset) {
     setEditingAsset(asset);
+    setShowAssetForm(true);
   }
 
   function handleDeleteAsset(id: string) {
@@ -41,6 +51,7 @@ export default function AssetsPage() {
 
   function handleEditCategory(category: AssetCategory) {
     setEditingCategory(category);
+    setShowCategoryForm(true);
   }
 
   function handleDeleteCategory(id: string) {
@@ -49,87 +60,133 @@ export default function AssetsPage() {
     }
   }
 
-  return (
-    <div className="space-y-10">
-      <div>
-        <h1 className="text-2xl font-bold">Asset Management</h1>
+  const totalCost = assets.reduce((sum, a) => sum + (a.purchaseValue || 0), 0);
+  const netBookValue = assets.reduce((sum, a) => sum + (a.currentValue || 0), 0);
+  const totalDepreciation = Math.max(0, totalCost - netBookValue);
 
-        <p className="mt-2 text-[var(--nebula-text-secondary)]">
-          Track business-owned items of value — computers, vehicles,
-          machinery, furniture and more. Acquisitions capitalise into the
-          accounting engine (asset account debited, cash or payable
-          credited) and depreciate over their useful life. Assets only ever
-          affect accounting — inventory and stock are never touched.
-        </p>
+  return (
+    <div className="space-y-8">
+      <AppPageHeader
+        title="Fixed Asset Management & Depreciation"
+        subtitle="Track business capital assets, category lifespans, straight-line/declining balance depreciation, and general ledger capitalisation."
+        actions={
+          <div className="flex items-center gap-3">
+            <AppButton
+              variant="outline"
+              leftIcon={<Plus size={16} />}
+              onClick={() => {
+                setActiveTab("categories");
+                setEditingCategory(null);
+                setShowCategoryForm(true);
+              }}
+            >
+              Add Category
+            </AppButton>
+            <AppButton
+              variant="primary"
+              leftIcon={<Plus size={16} />}
+              onClick={() => {
+                setActiveTab("register");
+                setEditingAsset(null);
+                setShowAssetForm(true);
+              }}
+            >
+              Register Asset
+            </AppButton>
+          </div>
+        }
+      />
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <AppStatCard
+          label="Fixed Assets"
+          value={assets.length}
+          subtext="Capitalised property & equipment"
+          icon={<Package size={20} />}
+          tone="primary"
+        />
+        <AppStatCard
+          label="Gross Asset Value"
+          value={`$${totalCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          subtext="Historical acquisition cost"
+          icon={<DollarSign size={20} />}
+          tone="default"
+        />
+        <AppStatCard
+          label="Accumulated Depreciation"
+          value={`$${totalDepreciation.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          subtext="Amortised asset life"
+          icon={<TrendingDown size={20} />}
+          tone="warning"
+        />
+        <AppStatCard
+          label="Net Book Value"
+          value={`$${netBookValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          subtext="Current balance sheet value"
+          icon={<Layers size={20} />}
+          tone="success"
+        />
       </div>
 
-      {/* Asset Register */}
-      <section id="asset-register" className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Asset Register</h2>
+      <AppTabs
+        tabs={[
+          { id: "register", name: "Asset Register", icon: <Package size={16} /> },
+          { id: "categories", name: "Asset Categories", icon: <Layers size={16} /> },
+          { id: "depreciation", name: "Depreciation Schedules", icon: <TrendingDown size={16} /> },
+        ]}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        variant="pill"
+      />
 
-          <button
-            className="rounded bg-black px-4 py-2 text-white"
-            onClick={() => {
-              setEditingAsset(null);
-            }}
-          >
-            Register Asset
-          </button>
+      {activeTab === "register" && (
+        <div className="space-y-6">
+          {showAssetForm && (
+            <AssetForm
+              asset={editingAsset}
+              onClose={() => {
+                setEditingAsset(null);
+                setShowAssetForm(false);
+              }}
+            />
+          )}
+
+          <AssetTable
+            assets={assets}
+            categories={categories}
+            onEdit={handleEditAsset}
+            onDelete={handleDeleteAsset}
+          />
         </div>
+      )}
 
-        <AssetForm
-          asset={editingAsset}
-          onClose={() => {
-            setEditingAsset(null);
-          }}
-        />
+      {activeTab === "categories" && (
+        <div className="space-y-6">
+          {showCategoryForm && (
+            <AssetCategoryForm
+              category={editingCategory}
+              onClose={() => {
+                setEditingCategory(null);
+                setShowCategoryForm(false);
+              }}
+            />
+          )}
 
-        <AssetTable
-          assets={assets}
-          categories={categories}
-          onEdit={handleEditAsset}
-          onDelete={handleDeleteAsset}
-        />
-      </section>
-
-      {/* Asset Categories */}
-      <section id="asset-categories" className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Asset Categories</h2>
-
-          <button
-            className="rounded bg-black px-4 py-2 text-white"
-            onClick={() => {
-              setEditingCategory(null);
-            }}
-          >
-            Add Category
-          </button>
+          <AssetCategoryTable
+            categories={categories}
+            onEdit={handleEditCategory}
+            onDelete={handleDeleteCategory}
+          />
         </div>
+      )}
 
-        <AssetCategoryForm
-          category={editingCategory}
-          onClose={() => {
-            setEditingCategory(null);
-          }}
-        />
-
-        <AssetCategoryTable
-          categories={categories}
-          onEdit={handleEditCategory}
-          onDelete={handleDeleteCategory}
-        />
-      </section>
-
-      {/* Depreciation Overview */}
-      <section id="depreciation-overview" className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Depreciation Overview</h2>
+      {activeTab === "depreciation" && (
+        <div className="space-y-6">
+          <DepreciationOverview assets={assets} />
         </div>
-
-        <DepreciationOverview assets={assets} />
-      </section>
+      )}
     </div>
   );
 }
+

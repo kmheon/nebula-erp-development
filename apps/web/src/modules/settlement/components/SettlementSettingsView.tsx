@@ -18,16 +18,16 @@ export default function SettlementSettingsView() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm space-y-6">
-        <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+      <div className="rounded-xl border border-[var(--nebula-border)] bg-[var(--nebula-surface)] p-6 shadow-sm space-y-6">
+        <div className="flex justify-between items-center border-b border-[var(--nebula-border)] pb-4">
           <div>
-            <h3 className="text-base font-bold text-slate-900">Enterprise Settlement Policy Settings</h3>
-            <p className="text-xs text-slate-500">
+            <h2 className="text-lg font-bold">Enterprise Settlement Policy Settings</h2>
+            <p className="text-sm text-[var(--nebula-text-secondary)]">
               Configure global allocation policies, netting rules, and overpayment behaviours across sales, purchase, and POS modules.
             </p>
           </div>
           {saved && (
-            <span className="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-bold uppercase animate-pulse">
+            <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 animate-pulse">
               Settings Saved Successfully
             </span>
           )}
@@ -36,11 +36,11 @@ export default function SettlementSettingsView() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Default Allocation Policy</label>
+              <label className="block text-xs font-semibold text-[var(--nebula-text-secondary)] uppercase mb-1.5">Default Allocation Policy</label>
               <select
                 value={settings.defaultAllocationPolicy}
                 onChange={(e) => setSettings({ ...settings, defaultAllocationPolicy: e.target.value as AllocationPolicy })}
-                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium"
+                className="w-full rounded-lg border border-[var(--nebula-border)] bg-[var(--nebula-surface-muted)] px-3 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--nebula-primary)]"
               >
                 <option value="fifo">FIFO (First In, First Out)</option>
                 <option value="lifo">LIFO (Last In, First Out)</option>
@@ -53,11 +53,11 @@ export default function SettlementSettingsView() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Default Settlement Behaviour</label>
+              <label className="block text-xs font-semibold text-[var(--nebula-text-secondary)] uppercase mb-1.5">Default Settlement Behaviour</label>
               <select
                 value={settings.defaultSettlementBehaviour}
                 onChange={(e) => setSettings({ ...settings, defaultSettlementBehaviour: e.target.value as any })}
-                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium"
+                className="w-full rounded-lg border border-[var(--nebula-border)] bg-[var(--nebula-surface-muted)] px-3 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--nebula-primary)]"
               >
                 <option value="auto_allocate">Auto-allocate to open invoices</option>
                 <option value="hold_unallocated">Hold as unallocated credit / deposit</option>
@@ -67,51 +67,51 @@ export default function SettlementSettingsView() {
           </div>
 
           <div className="space-y-4 pt-2">
-            <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <div className="flex items-center justify-between p-4 rounded-lg border border-[var(--nebula-border)] bg-[var(--nebula-surface-muted)]">
               <div>
-                <span className="text-sm font-bold text-slate-900 block">Auto-Net Customer & Supplier</span>
-                <span className="text-xs text-slate-500">Automatically net receivables and payables for dual-role contacts.</span>
+                <span className="text-sm font-bold block">Auto-Net Customer & Supplier</span>
+                <span className="text-xs text-[var(--nebula-text-secondary)]">Automatically net receivables and payables for dual-role contacts.</span>
               </div>
               <input
                 type="checkbox"
                 checked={settings.autoNetCustomerSupplier}
                 onChange={(e) => setSettings({ ...settings, autoNetCustomerSupplier: e.target.checked })}
-                className="w-5 h-5 rounded text-primary focus:ring-primary/20"
+                className="w-5 h-5 rounded text-[var(--nebula-primary)] focus:ring-[var(--nebula-primary)]/20"
               />
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <div className="flex items-center justify-between p-4 rounded-lg border border-[var(--nebula-border)] bg-[var(--nebula-surface-muted)]">
               <div>
-                <span className="text-sm font-bold text-slate-900 block">Allow Manual Override</span>
-                <span className="text-xs text-slate-500">Allow finance users to manually adjust allocations during settlement.</span>
+                <span className="text-sm font-bold block">Allow Manual Override</span>
+                <span className="text-xs text-[var(--nebula-text-secondary)]">Allow finance users to manually adjust allocations during settlement.</span>
               </div>
               <input
                 type="checkbox"
                 checked={settings.allowManualOverride}
                 onChange={(e) => setSettings({ ...settings, allowManualOverride: e.target.checked })}
-                className="w-5 h-5 rounded text-primary focus:ring-primary/20"
+                className="w-5 h-5 rounded text-[var(--nebula-primary)] focus:ring-[var(--nebula-primary)]/20"
               />
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <div className="flex items-center justify-between p-4 rounded-lg border border-[var(--nebula-border)] bg-[var(--nebula-surface-muted)]">
               <div>
-                <span className="text-sm font-bold text-slate-900 block">Allow Overpayment</span>
-                <span className="text-xs text-slate-500">Permit payment amounts exceeding total open invoice balance.</span>
+                <span className="text-sm font-bold block">Allow Overpayment</span>
+                <span className="text-xs text-[var(--nebula-text-secondary)]">Permit payment amounts exceeding total open invoice balance.</span>
               </div>
               <input
                 type="checkbox"
                 checked={settings.allowOverpayment}
                 onChange={(e) => setSettings({ ...settings, allowOverpayment: e.target.checked })}
-                className="w-5 h-5 rounded text-primary focus:ring-primary/20"
+                className="w-5 h-5 rounded text-[var(--nebula-primary)] focus:ring-[var(--nebula-primary)]/20"
               />
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end pt-4 border-t border-slate-100">
+        <div className="flex justify-end pt-4 border-t border-[var(--nebula-border)]">
           <button
             onClick={handleSave}
-            className="px-6 py-2.5 bg-primary text-primary-foreground rounded-xl text-xs font-bold uppercase hover:bg-primary/90 transition-all shadow-sm"
+            className="rounded-lg bg-[var(--nebula-primary)] px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:opacity-90 transition-opacity"
           >
             Save Settlement Settings
           </button>

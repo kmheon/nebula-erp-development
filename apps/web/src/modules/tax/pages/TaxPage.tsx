@@ -1,8 +1,13 @@
 import { useState } from "react";
-
+import { Receipt, Percent, ArrowDownRight, ArrowUpRight, DollarSign } from "lucide-react";
 import TaxForm from "../components/TaxForm";
 import TaxTable from "../components/TaxTable";
 import TaxSummaryCard from "../components/TaxSummaryCard";
+import {
+  AppPageHeader,
+  AppStatCard,
+  AppTabs,
+} from "../../../components/ui";
 
 import {
   useTaxSummary,
@@ -15,6 +20,7 @@ export default function TaxPage() {
   const { data: taxes = [] } = useTaxTypes();
   const { data: summary } = useTaxSummary();
 
+  const [activeTab, setActiveTab] = useState<string>("rules");
   const [selected, setSelected] = useState<TaxType | undefined>(undefined);
 
   const safeSummary = summary ?? {
@@ -24,35 +30,70 @@ export default function TaxPage() {
   };
 
   return (
-    <div className="space-y-10">
-      <div>
-        <h1 className="text-2xl font-bold">Tax Management</h1>
+    <div className="space-y-8">
+      <AppPageHeader
+        title="Tax Governance & Compliance"
+        subtitle="Define multi-jurisdiction tax rules (VAT, Sales Tax, GST) and track input/output tax liability across sales, purchases, and expenses."
+      />
 
-        <p className="mt-2 text-[var(--nebula-text-secondary)]">
-          Define tax rules (VAT, Sales Tax, Service Tax, etc.) and track tax
-          applied across sales, purchases, expenses and assets. Tax affects
-          accounting only and never mutates inventory, stock or products.
-        </p>
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <AppStatCard
+          label="Active Tax Rules"
+          value={taxes.length}
+          subtext="Configured tax codes"
+          icon={<Percent size={20} />}
+          tone="primary"
+        />
+        <AppStatCard
+          label="Total Input Tax"
+          value={`$${safeSummary.totalInputTax.toFixed(2)}`}
+          subtext="Recoverable purchase tax"
+          icon={<ArrowDownRight size={20} />}
+          tone="success"
+        />
+        <AppStatCard
+          label="Total Output Tax"
+          value={`$${safeSummary.totalOutputTax.toFixed(2)}`}
+          subtext="Collected sales tax"
+          icon={<ArrowUpRight size={20} />}
+          tone="primary"
+        />
+        <AppStatCard
+          label="Net Tax Payable"
+          value={`$${safeSummary.taxPayable.toFixed(2)}`}
+          subtext="Remittance obligation"
+          icon={<DollarSign size={20} />}
+          tone="warning"
+        />
       </div>
 
-      {/* Tax Types */}
-      <section id="tax-types" className="space-y-4">
-        <h2 className="text-xl font-semibold">Tax Types</h2>
+      <AppTabs
+        tabs={[
+          { id: "rules", name: "Tax Rules & Codes", icon: <Percent size={16} /> },
+          { id: "summary", name: "Tax Summary & Analytics", icon: <Receipt size={16} /> },
+        ]}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        variant="pill"
+      />
 
-        <TaxForm
-          tax={selected}
-          onCancel={() => setSelected(undefined)}
-        />
+      {activeTab === "rules" && (
+        <div className="space-y-6">
+          <TaxForm
+            tax={selected}
+            onCancel={() => setSelected(undefined)}
+          />
+          <TaxTable taxes={taxes} />
+        </div>
+      )}
 
-        <TaxTable taxes={taxes} />
-      </section>
-
-      {/* Tax Summary */}
-      <section id="tax-summary" className="space-y-4">
-        <h2 className="text-xl font-semibold">Tax Summary</h2>
-
-        <TaxSummaryCard summary={safeSummary} />
-      </section>
+      {activeTab === "summary" && (
+        <div className="space-y-6">
+          <TaxSummaryCard summary={safeSummary} />
+        </div>
+      )}
     </div>
   );
 }
+

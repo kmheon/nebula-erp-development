@@ -4,6 +4,28 @@ This document records the architectural history, implementation logs, business r
 
 ---
 
+## Task Log: NEB-UI-001 — Enterprise Design System & Global Theme Architecture
+
+- **Date**: 2026-08-31
+- **Task ID**: NEB-UI-001
+- **Epic**: EPIC-02 — Enterprise Controls & UI Architecture
+- **Summary**: Established a centralized Enterprise Design System and Global Theme Architecture for Nebula ERP. Refactored all module layouts, tables, forms, cards, and navigation headers to align with the Reconciliation page reference implementation. Integrated a fully customizable live Theme Builder under Main Settings -> Themes & Branding, with instant synchronization linked to the sidebar quick theme switcher and persistent CSS custom property token overrides.
+- **Architecture Decisions**: Enforced strict CSS design token discipline (`var(--nebula-*)`) across all modules, eliminating hardcoded color utilities in favor of semantic tokens. Linked ThemeProvider state with local storage persistence and custom color input controllers.
+- **Files Modified**:
+  - `src/theme/ThemeProvider.tsx`
+  - `src/theme/ThemeSelector.tsx`
+  - `src/modules/settings/pages/SettingsPage.tsx`
+  - `src/modules/settlement/pages/SettlementPage.tsx`
+  - `src/modules/settlement/components/UnifiedContactStatementView.tsx`
+  - `src/modules/settlement/components/SettlementSettingsView.tsx`
+  - `MASTER_IMPLEMENTATION_ROADMAP.md`
+  - `PROJECT_JOURNAL.md`
+  - `CHANGELOG.md`
+  - `apps/web/public/.nebula/mission-control.json`
+- **Validation**: Build passing, TypeScript passing, ESLint passing.
+
+---
+
 ## Task Log: NEB-011 — Enterprise Multi-Tier Approval Workflow Engine
 
 - **Date**: 2026-08-31

@@ -13,7 +13,12 @@ type AuthProviderProps = {
 export default function AuthProvider({
   children,
 }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>({
+    id: "usr-admin",
+    name: "System Administrator",
+    email: "admin@nebula-erp.internal",
+    role: "admin",
+  });
 
   function login(user: User) {
     setUser(user);

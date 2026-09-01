@@ -1,4 +1,11 @@
 import type { JournalEntry } from "../types/accounting.types";
+import {
+  AppTable,
+  type Column,
+  AppBadge,
+  type BadgeTone,
+  AppButton,
+} from "../../../components/ui";
 
 type JournalEntryTableProps = {
   entries: JournalEntry[];
@@ -9,63 +16,82 @@ function entryTotal(entry: JournalEntry): number {
   return entry.lines.reduce((sum, line) => sum + line.debit, 0);
 }
 
-function statusClass(status: JournalEntry["status"]): string {
-  switch (status) {
-    case "posted":
-      return "rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700";
-    case "cancelled":
-      return "rounded bg-red-100 px-2 py-1 text-xs font-medium text-red-700";
-    default:
-      return "rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600";
-  }
-}
-
 export default function JournalEntryTable({
   entries,
   onPost,
 }: JournalEntryTableProps) {
-  return (
-    <div className="surface overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-3 text-left">Date</th>
-            <th className="p-3 text-left">Reference</th>
-            <th className="p-3 text-left">Description</th>
-            <th className="p-3 text-left">Status</th>
-            <th className="p-3 text-right">Total</th>
-            <th className="p-3 text-right">Action</th>
-          </tr>
-        </thead>
+  const columns: Column<JournalEntry>[] = [
+    {
+      key: "date",
+      header: "Date",
+      className: "text-[var(--nebula-text-secondary)]",
+      render: (entry) => entry.date,
+    },
+    {
+      key: "reference",
+      header: "Reference",
+      className: "font-mono font-medium text-[var(--nebula-text-primary)]",
+      render: (entry) => entry.reference,
+    },
+    {
+      key: "description",
+      header: "Description",
+      className: "text-[var(--nebula-text-primary)] max-w-xs truncate",
+      render: (entry) => entry.description,
+    },
+    {
+      key: "status",
+      header: "Status",
+      render: (entry) => {
+        const badgeTone: BadgeTone =
+          entry.status === "posted"
+            ? "success"
+            : entry.status === "cancelled"
+            ? "danger"
+            : "neutral";
 
-        <tbody>
-          {entries.map((entry) => (
-            <tr key={entry.id} className="border-b">
-              <td className="p-3">{entry.date}</td>
-              <td className="p-3 font-medium">{entry.reference}</td>
-              <td className="p-3">{entry.description}</td>
-              <td className="p-3">
-                <span className={statusClass(entry.status)}>
-                  {entry.status}
-                </span>
-              </td>
-              <td className="p-3 text-right">
-                ${entryTotal(entry).toFixed(2)}
-              </td>
-              <td className="p-3 text-right">
-                {entry.status === "draft" && onPost && (
-                  <button
-                    className="rounded bg-black px-3 py-1 text-xs text-white"
-                    onClick={() => onPost(entry.id)}
-                  >
-                    Post
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        return (
+          <AppBadge tone={badgeTone} size="sm" className="capitalize">
+            {entry.status}
+          </AppBadge>
+        );
+      },
+    },
+    {
+      key: "total",
+      header: "Total",
+      align: "right",
+      className: "text-right font-mono font-medium text-[var(--nebula-text-primary)]",
+      render: (entry) => `$${entryTotal(entry).toFixed(2)}`,
+    },
+    {
+      key: "actions",
+      header: "Action",
+      align: "right",
+      render: (entry) =>
+        entry.status === "draft" && onPost ? (
+          <AppButton
+            variant="primary"
+            size="sm"
+            onClick={() => onPost(entry.id)}
+          >
+            Post
+          </AppButton>
+        ) : null,
+    },
+  ];
+
+  return (
+    <AppTable
+      columns={columns}
+      data={entries}
+      keyExtractor={(item) => item.id}
+      emptyState={
+        <div className="py-8 text-center text-sm text-[var(--nebula-text-muted)]">
+          No journal entries recorded yet.
+        </div>
+      }
+    />
   );
 }
+

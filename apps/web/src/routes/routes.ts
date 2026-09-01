@@ -1,7 +1,13 @@
 import { DashboardPage } from "../modules/dashboard";
 import MissionControlPage from "../modules/mission-control/pages/MissionControlPage";
 
-import InventoryPage from "../modules/inventory/pages/InventoryPage";
+import InventoryDashboardPage from "../modules/inventory/pages/InventoryDashboardPage";
+import InventoryProductsPage from "../modules/inventory/pages/InventoryProductsPage";
+import InventoryWarehousesPage from "../modules/inventory/pages/InventoryWarehousesPage";
+import InventoryBatchSerialPage from "../modules/inventory/pages/InventoryBatchSerialPage";
+import InventoryReceivingDispatchPage from "../modules/inventory/pages/InventoryReceivingDispatchPage";
+import InventoryCycleCountPage from "../modules/inventory/pages/InventoryCycleCountPage";
+import InventoryReportsPage from "../modules/inventory/pages/InventoryReportsPage";
 import PurchasePage from "../modules/purchase/pages/PurchasePage";
 import SalesPage from "../modules/sales/pages/SalesPage";
 import CRMPage from "../modules/crm/pages/CRMPage";
@@ -40,7 +46,39 @@ export const routes = [
   },
   {
     path: "/inventory",
-    element: InventoryPage,
+    element: InventoryDashboardPage,
+  },
+  {
+    path: "/inventory/products",
+    element: InventoryProductsPage,
+  },
+  {
+    path: "/inventory/warehouses",
+    element: InventoryWarehousesPage,
+  },
+  {
+    path: "/inventory/tracking",
+    element: InventoryBatchSerialPage,
+  },
+  {
+    path: "/inventory/docks",
+    element: InventoryReceivingDispatchPage,
+  },
+  {
+    path: "/inventory/cycle-count",
+    element: InventoryCycleCountPage,
+  },
+  {
+    path: "/inventory/reports",
+    element: InventoryReportsPage,
+  },
+  {
+    path: "/products",
+    element: InventoryProductsPage,
+  },
+  {
+    path: "/warehouses",
+    element: InventoryWarehousesPage,
   },
   {
     path: "/purchase",

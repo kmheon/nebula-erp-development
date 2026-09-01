@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
-
+import { Plus, Edit3 } from "lucide-react";
 import { useAccountMutation } from "../hooks/useAccounts";
+import {
+  AppCard,
+  AppInput,
+  AppSelect,
+  AppButton,
+} from "../../../components/ui";
 
 import type {
   Account,
@@ -103,80 +109,81 @@ export default function AccountForm({
   );
 
   return (
-    <div className="surface p-5 space-y-4">
-      <h2 className="text-xl font-bold">
-        {editMode ? "Edit Account" : "Add Account"}
-      </h2>
+    <AppCard
+      title={
+        <span className="flex items-center gap-2">
+          {editMode ? <Edit3 size={18} /> : <Plus size={18} />}
+          {editMode ? "Edit Account" : "Add New Account"}
+        </span>
+      }
+      subtitle="Define general ledger hierarchy, account code, and category."
+    >
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <AppInput
+          label="Account Code"
+          placeholder="e.g. 1010"
+          value={form.code}
+          onChange={(e) => updateField("code", e.target.value)}
+        />
 
-      <input
-        className="w-full rounded border p-2"
-        placeholder="Account Code"
-        value={form.code}
-        onChange={(e) => updateField("code", e.target.value)}
-      />
+        <AppInput
+          label="Account Name"
+          placeholder="e.g. Operating Checking Account"
+          value={form.name}
+          onChange={(e) => updateField("name", e.target.value)}
+        />
 
-      <input
-        className="w-full rounded border p-2"
-        placeholder="Account Name"
-        value={form.name}
-        onChange={(e) => updateField("name", e.target.value)}
-      />
-
-      <select
-        className="w-full rounded border p-2"
-        value={form.type}
-        onChange={(e) =>
-          updateField("type", e.target.value as AccountType)
-        }
-      >
-        {ACCOUNT_TYPES.map((type) => (
-          <option key={type} value={type}>
-            {type.charAt(0).toUpperCase() + type.slice(1)}
-          </option>
-        ))}
-      </select>
-
-      <select
-        className="w-full rounded border p-2"
-        value={form.parentId}
-        onChange={(e) => updateField("parentId", e.target.value)}
-      >
-        <option value="">No Parent (Root)</option>
-        {parentCandidates.map((candidate) => (
-          <option key={candidate.id} value={candidate.id}>
-            {candidate.code} - {candidate.name}
-          </option>
-        ))}
-      </select>
-
-      <select
-        className="w-full rounded border p-2"
-        value={form.status}
-        onChange={(e) =>
-          updateField("status", e.target.value as AccountStatus)
-        }
-      >
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-      </select>
-
-      <div className="flex gap-3">
-        <button
-          className="rounded bg-black px-4 py-2 text-white"
-          onClick={submit}
+        <AppSelect
+          label="Account Type"
+          value={form.type}
+          onChange={(e) =>
+            updateField("type", e.target.value as AccountType)
+          }
         >
-          {editMode ? "Update Account" : "Create Account"}
-        </button>
+          {ACCOUNT_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type.charAt(0).toUpperCase() + type.slice(1)}
+            </option>
+          ))}
+        </AppSelect>
 
-        {onCancel && (
-          <button
-            className="rounded border px-4 py-2"
-            onClick={onCancel}
-          >
-            Cancel
-          </button>
-        )}
+        <AppSelect
+          label="Parent Account"
+          value={form.parentId}
+          onChange={(e) => updateField("parentId", e.target.value)}
+        >
+          <option value="">No Parent (Root)</option>
+          {parentCandidates.map((candidate) => (
+            <option key={candidate.id} value={candidate.id}>
+              {candidate.code} - {candidate.name}
+            </option>
+          ))}
+        </AppSelect>
+
+        <AppSelect
+          label="Status"
+          value={form.status}
+          onChange={(e) =>
+            updateField("status", e.target.value as AccountStatus)
+          }
+        >
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </AppSelect>
       </div>
-    </div>
+
+      <div className="mt-6 flex items-center justify-end gap-3">
+        {onCancel && (
+          <AppButton variant="outline" onClick={onCancel}>
+            Cancel
+          </AppButton>
+        )}
+
+        <AppButton variant="primary" onClick={submit}>
+          {editMode ? "Update Account" : "Create Account"}
+        </AppButton>
+      </div>
+    </AppCard>
   );
 }
+

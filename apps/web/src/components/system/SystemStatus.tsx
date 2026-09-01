@@ -1,91 +1,113 @@
-import { Circle, AlertTriangle, XCircle, Wrench } from "lucide-react";
-
 export type SystemStatusVariant = "online" | "warning" | "offline" | "maintenance";
 
 interface SystemStatusProps {
   variant: SystemStatusVariant;
   /** Show text label next to indicator */
   showLabel?: boolean;
+  /** Hide label text on smaller screens (below md) while keeping the indicator */
+  responsive?: boolean;
   /** Compact mode - only show the dot indicator */
   compact?: boolean;
   /** Custom className */
   className?: string;
 }
 
-const variantConfig: Record<SystemStatusVariant, { icon: typeof Circle; label: string; colorToken: string }> = {
-  online: { icon: Circle, label: "System Online", colorToken: "var(--nebula-status-success)" },
-  warning: { icon: AlertTriangle, label: "System Warning", colorToken: "var(--nebula-status-warning)" },
-  offline: { icon: XCircle, label: "System Offline", colorToken: "var(--nebula-status-error)" },
-  maintenance: { icon: Wrench, label: "Maintenance", colorToken: "var(--nebula-status-info)" },
+const variantConfig: Record<
+  SystemStatusVariant,
+  {
+    label: string;
+    shortLabel: string;
+    colorToken: string;
+    bgToken: string;
+  }
+> = {
+  online: {
+    label: "System Online",
+    shortLabel: "Online",
+    colorToken: "var(--nebula-success, #16a34a)",
+    bgToken: "var(--nebula-success-bg, rgba(22, 163, 74, 0.12))",
+  },
+  warning: {
+    label: "System Warning",
+    shortLabel: "Warning",
+    colorToken: "var(--nebula-warning, #d97706)",
+    bgToken: "var(--nebula-warning-bg, rgba(217, 119, 6, 0.12))",
+  },
+  offline: {
+    label: "System Offline",
+    shortLabel: "Offline",
+    colorToken: "var(--nebula-danger, #dc2626)",
+    bgToken: "var(--nebula-danger-bg, rgba(220, 38, 38, 0.12))",
+  },
+  maintenance: {
+    label: "Maintenance",
+    shortLabel: "Maint.",
+    colorToken: "var(--nebula-info, #0284c7)",
+    bgToken: "var(--nebula-info-bg, rgba(2, 132, 199, 0.12))",
+  },
 };
 
 /**
  * System Status Indicator Component
  *
- * Displays system health status with animated pulse/glow effects.
- * Uses Nebula theme tokens for colors to support all themes.
- *
- * Variants:
- * - online: Green pulse indicator
- * - warning: Yellow pulse indicator
- * - offline: Red pulse indicator
- * - maintenance: Blue pulse indicator
+ * Displays system health status with theme-adaptive styling and pulse effects.
+ * Harmonizes with all active theme tokens (light/dark/custom presets) and
+ * prevents overlapping on various window viewports.
  */
 export default function SystemStatus({
   variant,
   showLabel = true,
+  responsive = false,
   compact = false,
-  className = ""
+  className = "",
 }: SystemStatusProps) {
-  const { icon: Icon, label, colorToken } = variantConfig[variant];
+  const { label, shortLabel, colorToken, bgToken } = variantConfig[variant];
 
   return (
     <div
-      className={`flex items-center gap-2 ${className}`}
+      className={`inline-flex items-center gap-2 select-none whitespace-nowrap shrink-0 transition-colors duration-200 ${className}`}
       role="status"
       aria-live="polite"
       aria-label={label}
+      title={label}
     >
-      <div className="relative flex-shrink-0">
-        {/* Glow ring - animated */}
+      <div className="relative flex h-3.5 w-3.5 shrink-0 items-center justify-center">
+        {/* Glow ring - animated ping */}
         <div
-          className="absolute inset-0 rounded-full opacity-0 animate-ping"
+          className="absolute inset-0 rounded-full opacity-75 animate-ping"
           style={{
             backgroundColor: colorToken,
-            animationDuration: "2s",
-            animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+            animationDuration: "2.5s",
           }}
           aria-hidden="true"
         />
-        {/* Main indicator */}
-        <Icon
-          size={compact ? 8 : 10}
-          className="relative z-10 transition-all duration-300 ease-out nebula-breathe"
-          style={{ color: colorToken }}
+
+        {/* Outer subtle glow badge */}
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            backgroundColor: bgToken,
+          }}
           aria-hidden="true"
         />
-        {/* Inner pulse dot for online status */}
-        {variant === "online" && !compact && (
-          <div
-            className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full animate-pulse"
-            style={{
-              backgroundColor: colorToken,
-              width: "4px",
-              height: "4px",
-              animationDuration: "2s",
-              animationTimingFunction: "ease-in-out",
-            }}
-            aria-hidden="true"
-          />
-        )}
+
+        {/* Main solid dot */}
+        <div
+          className="relative z-10 h-2 w-2 rounded-full transition-transform duration-300"
+          style={{ backgroundColor: colorToken }}
+          aria-hidden="true"
+        />
       </div>
 
       {!compact && showLabel && (
         <span
-          className="text-xs font-medium text-[var(--nebula-text-secondary)] transition-colors duration-200"
-          style={{ color: colorToken }}
+          className={`text-xs font-semibold tracking-tight transition-colors duration-200 ${
+            responsive ? "hidden sm:inline-block" : "inline-block"
+          }`}
+          style={{ color: "var(--nebula-text-secondary)" }}
         >
-          {label}
+          <span className="hidden md:inline">{label}</span>
+          <span className="inline md:hidden">{shortLabel}</span>
         </span>
       )}
     </div>

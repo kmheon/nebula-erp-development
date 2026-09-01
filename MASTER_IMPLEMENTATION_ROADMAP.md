@@ -59,8 +59,9 @@ This Master Implementation Roadmap translates the diagnostic findings of the Neb
 
 ---
 
-### EPIC-02 — Enterprise Controls
+### EPIC-02 — Enterprise Controls & UI Architecture
 **Status**: ACTIVE  
+- ✅ **NEB-UI-001**: Enterprise Design System & Global Theme Architecture (Completed)
 - ✅ **NEB-011**: Multi-Tier Approval Engine (Completed)
 - ⬜ **NEB-012**: Workflow Designer & Advanced Visual Modeler *(Current Active Task)*
 - ⬜ **NEB-013**: Notification & Escalation

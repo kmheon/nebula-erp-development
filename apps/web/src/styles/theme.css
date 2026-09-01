@@ -10,9 +10,46 @@ body {
   color: var(--nebula-text-primary);
 }
 
+/* Design System Surface Base */
 .surface {
   background: var(--nebula-surface);
   border: 1px solid var(--nebula-border);
   border-radius: var(--nebula-radius-lg);
   box-shadow: var(--nebula-shadow-sm);
+}
+
+.surface-muted {
+  background: var(--nebula-surface-muted);
+  border: 1px solid var(--nebula-border);
+  border-radius: var(--nebula-radius-md);
+}
+
+.app-card {
+  background: var(--nebula-surface);
+  border: 1px solid var(--nebula-border);
+  border-radius: var(--nebula-radius-lg);
+  box-shadow: var(--nebula-shadow-sm);
+  padding: 1.5rem;
+}
+
+.app-header {
+  background: var(--nebula-surface);
+  border-bottom: 1px solid var(--nebula-border);
+  color: var(--nebula-text-primary);
+}
+
+.app-input {
+  background: var(--nebula-surface);
+  border: 1px solid var(--nebula-border);
+  border-radius: var(--nebula-radius-md);
+  color: var(--nebula-text-primary);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: border-color var(--nebula-transition-fast), box-shadow var(--nebula-transition-fast);
+}
+
+.app-input:focus {
+  outline: none;
+  border-color: var(--nebula-primary);
+  box-shadow: 0 0 0 2px var(--nebula-focus-ring);
 }
