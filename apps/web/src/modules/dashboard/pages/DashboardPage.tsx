@@ -3,6 +3,7 @@ import FinancialSnapshot from "../components/FinancialSnapshot";
 import InventoryHealth from "../components/InventoryHealth";
 import RecentActivity from "../components/RecentActivity";
 import QuickActions from "../components/QuickActions";
+import { AppPageHeader } from "../../../components/ui";
 
 import {
   useDashboardSummary,
@@ -19,7 +20,7 @@ function SectionHeading({
 }) {
   return (
     <div className="mb-4">
-      <h2 className="text-xl font-semibold text-[var(--nebula-text-primary)]">
+      <h2 className="text-lg font-semibold text-[var(--nebula-text-primary)]">
         {title}
       </h2>
 
@@ -45,18 +46,12 @@ export default function DashboardPage() {
   const activity = useRecentActivity();
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       {/* Header */}
-      <header className="space-y-2">
-        <h1 className="text-2xl font-bold text-[var(--nebula-text-primary)]">
-          Command Center
-        </h1>
-
-        <p className="text-[var(--nebula-text-secondary)]">
-          Real-time business overview aggregated from sales, purchases,
-          inventory and finance. Read-only — your decision center for the day.
-        </p>
-      </header>
+      <AppPageHeader
+        title="Nebula ERP Command Center"
+        subtitle="Real-time business overview aggregated from sales, purchases, inventory and finance. Read-only decision center."
+      />
 
       {/* Executive Cards */}
       <section

@@ -4,8 +4,14 @@
  */
 
 import { useState } from "react";
+import { FileText, History, Settings, Scale, ArrowDownLeft, ArrowUpRight } from "lucide-react";
 import UnifiedContactStatementView from "../components/UnifiedContactStatementView";
 import SettlementSettingsView from "../components/SettlementSettingsView";
+import {
+  AppPageHeader,
+  AppStatCard,
+  AppTabs,
+} from "../../../components/ui";
 import type { UnifiedContactStatement, SettlementAuditRecord } from "../types/settlement.types";
 
 const MOCK_INITIAL_STATEMENT: UnifiedContactStatement = {
@@ -40,7 +46,7 @@ const MOCK_INITIAL_STATEMENT: UnifiedContactStatement = {
 };
 
 export default function SettlementPage() {
-  const [activeTab, setActiveTab] = useState<"statement" | "history" | "settings">("statement");
+  const [activeTab, setActiveTab] = useState<string>("statement");
   const [statement, setStatement] = useState<UnifiedContactStatement>(MOCK_INITIAL_STATEMENT);
 
   const handleSettlementComplete = (record: SettlementAuditRecord) => {
@@ -74,47 +80,56 @@ export default function SettlementPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--nebula-text-primary)]">
-            Enterprise Settlement Engine & Unified Ledger
-          </h1>
-          <p className="mt-1 text-sm text-[var(--nebula-text-secondary)]">
-            Shared settlement service for Sales, Purchase, POS, and Accounting with automated FIFO/LIFO/Due-Date allocation and netting.
-          </p>
-        </div>
+      <AppPageHeader
+        title="Enterprise Settlement Engine & Unified Ledger"
+        subtitle="Shared cross-module settlement service for Sales, Purchase, POS, and Accounting with automated FIFO/LIFO/Due-Date netting."
+      />
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <AppStatCard
+          label="Gross Open Receivables"
+          value={`$${statement.grossReceivable.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
+          subtext="Unsettled customer invoices"
+          icon={<ArrowDownLeft size={20} />}
+          tone="success"
+        />
+        <AppStatCard
+          label="Gross Open Payables"
+          value={`$${statement.grossPayable.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
+          subtext="Unsettled supplier bills"
+          icon={<ArrowUpRight size={20} />}
+          tone="warning"
+        />
+        <AppStatCard
+          label="Net Ledger Position"
+          value={`$${Math.abs(statement.netBalance).toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
+          subtext={statement.netPositionLabel}
+          icon={<Scale size={20} />}
+          tone={statement.netBalance >= 0 ? "primary" : "danger"}
+        />
       </div>
 
-      {/* Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-[var(--nebula-border)] pb-3">
-        {[
-          { id: "statement", name: "Unified Statement" },
-          { id: "history", name: "Audit History" },
-          { id: "settings", name: "Policy Settings" },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              activeTab === tab.id
-                ? "bg-[var(--nebula-primary)] text-white shadow-sm"
-                : "bg-[var(--nebula-surface)] border border-[var(--nebula-border)] hover:bg-[var(--nebula-surface-muted)]"
-            }`}
-          >
-            {tab.name}
-          </button>
-        ))}
-      </div>
+      {/* Workspace Tabs */}
+      <AppTabs
+        tabs={[
+          { id: "statement", name: "Unified Statement", icon: <FileText size={16} /> },
+          { id: "history", name: "Audit Trail & History", icon: <History size={16} /> },
+          { id: "settings", name: "Settlement Policies", icon: <Settings size={16} /> },
+        ]}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        variant="pill"
+      />
 
       {activeTab === "statement" && (
         <UnifiedContactStatementView statement={statement} onSettlementComplete={handleSettlementComplete} />
       )}
 
       {activeTab === "history" && (
-        <div className="rounded-xl border border-[var(--nebula-border)] bg-[var(--nebula-surface)] p-6 shadow-sm space-y-4">
-          <h2 className="text-lg font-bold">Settlement Audit Trail & History</h2>
-          <div className="overflow-x-auto rounded-lg border border-[var(--nebula-border)]">
+        <div className="rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)] bg-[var(--nebula-surface)] p-6 space-y-4">
+          <h2 className="text-base font-semibold text-[var(--nebula-text-primary)]">Settlement Audit Trail & History</h2>
+          <div className="overflow-x-auto rounded-[var(--nebula-radius-md)] border border-[var(--nebula-border)]">
             <table className="w-full text-left text-sm">
               <thead className="bg-[var(--nebula-surface-muted)] text-xs font-semibold uppercase text-[var(--nebula-text-secondary)]">
                 <tr>
@@ -128,12 +143,12 @@ export default function SettlementPage() {
               </thead>
               <tbody className="divide-y divide-[var(--nebula-border)]">
                 {statement.settlementHistory.map((item) => (
-                  <tr key={item.id} className="hover:bg-[var(--nebula-surface-muted)]/50 transition-colors">
-                    <td className="px-4 py-3 font-mono font-bold text-xs">{item.id}</td>
+                  <tr key={item.id} className="hover:bg-[var(--nebula-surface-hover)] transition-colors">
+                    <td className="px-4 py-3 font-mono font-medium text-xs text-[var(--nebula-text-primary)]">{item.id}</td>
                     <td className="px-4 py-3 text-xs text-[var(--nebula-text-secondary)]">{new Date(item.date).toLocaleString()}</td>
-                    <td className="px-4 py-3 text-xs font-semibold">{item.user}</td>
-                    <td className="px-4 py-3 uppercase font-bold text-xs text-[var(--nebula-primary)]">{item.policy}</td>
-                    <td className="px-4 py-3 text-right font-mono font-bold text-emerald-600 dark:text-emerald-400">${item.totalSettledAmount.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-xs font-medium text-[var(--nebula-text-primary)]">{item.user}</td>
+                    <td className="px-4 py-3 uppercase font-semibold text-xs text-[var(--nebula-primary)]">{item.policy}</td>
+                    <td className="px-4 py-3 text-right font-mono font-medium text-[var(--nebula-success)]">${item.totalSettledAmount.toLocaleString()}</td>
                     <td className="px-4 py-3 font-mono text-xs text-[var(--nebula-text-secondary)]">{item.journalEntryRef || "N/A"}</td>
                   </tr>
                 ))}
@@ -147,4 +162,3 @@ export default function SettlementPage() {
     </div>
   );
 }
-

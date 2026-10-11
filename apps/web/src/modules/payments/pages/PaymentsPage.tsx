@@ -1,3 +1,15 @@
+import { useState } from "react";
+import {
+  DollarSign,
+  ArrowDownLeft,
+  ArrowUpRight,
+  Split,
+  Building2,
+  Users,
+  Plus,
+  CreditCard,
+} from "lucide-react";
+
 import PaymentAllocationForm from "../components/PaymentAllocationForm";
 import PaymentAllocationTable from "../components/PaymentAllocationTable";
 import PaymentForm from "../components/PaymentForm";
@@ -6,10 +18,16 @@ import SupplierPayableTable from "../components/SupplierPayableTable";
 import CustomerReceivableTable from "../components/CustomerReceivableTable";
 import PaymentChannelsPage from "../channels/pages/PaymentChannelsPage";
 
+import {
+  AppPageHeader,
+  AppStatCard,
+  AppTabs,
+  AppButton,
+} from "../../../components/ui";
+
 import { usePayments } from "../hooks/usePayments";
 import { usePurchaseOrders } from "../../purchase/hooks/usePurchaseOrder";
 import { useSalesOrders } from "../../sales/hooks/useSalesOrder";
-
 import { useSuppliers } from "../../purchase/hooks/useSupplier";
 import { useCustomers } from "../../sales/hooks/useCustomer";
 
@@ -92,6 +110,10 @@ function buildOutstandingDocuments(
 }
 
 export default function PaymentsPage() {
+  const [activeTab, setActiveTab] = useState<string>("records");
+  const [showPaymentForm, setShowPaymentForm] = useState<boolean>(false);
+  const [showAllocationForm, setShowAllocationForm] = useState<boolean>(false);
+
   const { data: payments = [] } = usePayments();
   const { data: suppliers = [] } = useSuppliers();
   const { data: customers = [] } = useCustomers();
@@ -99,9 +121,11 @@ export default function PaymentsPage() {
   const { data: purchaseOrders = [] } = usePurchaseOrders();
 
   const payablePayments = payments.filter((p) => p.type === "payable");
-  const receivablePayments = payments.filter(
-    (p) => p.type === "receivable",
-  );
+  const receivablePayments = payments.filter((p) => p.type === "receivable");
+
+  const totalPayableAmount = payablePayments.reduce((sum, p) => sum + p.amount, 0);
+  const totalReceivableAmount = receivablePayments.reduce((sum, p) => sum + p.amount, 0);
+  const netCashFlow = totalReceivableAmount - totalPayableAmount;
 
   const supplierPayables: SupplierPayable[] = suppliers.map((supplier) => {
     const paidAmount = payablePayments
@@ -121,25 +145,23 @@ export default function PaymentsPage() {
     };
   });
 
-  const customerReceivables: CustomerReceivable[] = customers.map(
-    (customer) => {
-      const receivedAmount = receivablePayments
-        .filter((p) => p.partyId === customer.id)
-        .reduce((sum, p) => sum + p.amount, 0);
+  const customerReceivables: CustomerReceivable[] = customers.map((customer) => {
+    const receivedAmount = receivablePayments
+      .filter((p) => p.partyId === customer.id)
+      .reduce((sum, p) => sum + p.amount, 0);
 
-      const invoiceAmount = receivedAmount;
-      const dueAmount = Math.max(invoiceAmount - receivedAmount, 0);
+    const invoiceAmount = receivedAmount;
+    const dueAmount = Math.max(invoiceAmount - receivedAmount, 0);
 
-      return {
-        customerId: customer.id,
-        customerName: customer.name,
-        invoiceAmount,
-        receivedAmount,
-        dueAmount,
-        status: deriveStatus(invoiceAmount, receivedAmount),
-      };
-    },
-  );
+    return {
+      customerId: customer.id,
+      customerName: customer.name,
+      invoiceAmount,
+      receivedAmount,
+      dueAmount,
+      status: deriveStatus(invoiceAmount, receivedAmount),
+    };
+  });
 
   const outstandingDocuments = buildOutstandingDocuments(
     payments,
@@ -148,56 +170,131 @@ export default function PaymentsPage() {
   );
 
   return (
-    <div className="space-y-10">
-      <div>
-        <h1 className="text-2xl font-bold">Payments Module</h1>
+    <div className="space-y-8">
+      <AppPageHeader
+        title="Treasury & Payments Management"
+        subtitle="Process customer receipts, supplier disbursements, multi-document payment allocations, and channel bank settlements."
+        actions={
+          <div className="flex flex-wrap items-center gap-3">
+            <AppButton
+              variant="outline"
+              leftIcon={<Split size={16} />}
+              onClick={() => {
+                setActiveTab("allocation");
+                setShowAllocationForm((prev) => !prev);
+              }}
+            >
+              {showAllocationForm ? "Close Allocation" : "Allocate Payment"}
+            </AppButton>
+            <AppButton
+              variant="primary"
+              leftIcon={<Plus size={16} />}
+              onClick={() => {
+                setActiveTab("records");
+                setShowPaymentForm((prev) => !prev);
+              }}
+            >
+              {showPaymentForm ? "Close Form" : "Record Payment"}
+            </AppButton>
+          </div>
+        }
+      />
 
-        <p className="mt-2 text-[var(--nebula-text-secondary)]">
-          Record supplier payments and customer receipts. Each payment posts a
-          balanced journal entry into the accounting engine and never touches
-          inventory, stock or products.
-        </p>
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <AppStatCard
+          label="Total Receipts (Inbound)"
+          value={`$${totalReceivableAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          subtext="Customer receipts processed"
+          icon={<ArrowDownLeft size={20} />}
+          tone="success"
+        />
+        <AppStatCard
+          label="Total Disbursements (Outbound)"
+          value={`$${totalPayableAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          subtext="Supplier payments issued"
+          icon={<ArrowUpRight size={20} />}
+          tone="warning"
+        />
+        <AppStatCard
+          label="Net Treasury Cash Flow"
+          value={`$${netCashFlow.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+          subtext="Receipts less disbursements"
+          icon={<DollarSign size={20} />}
+          tone={netCashFlow >= 0 ? "primary" : "danger"}
+        />
+        <AppStatCard
+          label="Total Transactions"
+          value={payments.length}
+          subtext="Ledger payment entries"
+          icon={<CreditCard size={20} />}
+          tone="info"
+        />
       </div>
 
-      {/* Payment Records */}
-      <section id="payments-records" className="space-y-4">
-        <h2 className="text-xl font-semibold">Payment Records</h2>
+      {/* Workspace Tabs */}
+      <AppTabs
+        tabs={[
+          { id: "records", name: "Payment Transactions", icon: <DollarSign size={16} /> },
+          { id: "allocation", name: "Payment Allocation", icon: <Split size={16} /> },
+          { id: "payables", name: "Supplier Payables", icon: <Building2 size={16} /> },
+          { id: "receivables", name: "Customer Receivables", icon: <Users size={16} /> },
+          { id: "channels", name: "Channels & Settlement", icon: <CreditCard size={16} /> },
+        ]}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        variant="pill"
+      />
 
-        <PaymentForm suppliers={suppliers} customers={customers} />
+      {/* Tab Panels */}
+      {activeTab === "records" && (
+        <div className="space-y-6">
+          {showPaymentForm && (
+            <div className="rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)] bg-[var(--nebula-surface)] p-6">
+              <h3 className="text-base font-semibold text-[var(--nebula-text-primary)] mb-4">
+                Record Payment / Customer Receipt
+              </h3>
+              <PaymentForm suppliers={suppliers} customers={customers} />
+            </div>
+          )}
+          <PaymentTable payments={payments} />
+        </div>
+      )}
 
-        <PaymentTable payments={payments} />
-      </section>
+      {activeTab === "allocation" && (
+        <div className="space-y-6">
+          {showAllocationForm && (
+            <div className="rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)] bg-[var(--nebula-surface)] p-6">
+              <h3 className="text-base font-semibold text-[var(--nebula-text-primary)] mb-4">
+                Allocate Payment to Invoices
+              </h3>
+              <PaymentAllocationForm
+                payments={payments}
+                outstandingDocuments={outstandingDocuments}
+              />
+            </div>
+          )}
+          <PaymentAllocationTable payments={payments} />
+        </div>
+      )}
 
-      {/* Payment Allocation */}
-      <section id="payments-allocation" className="space-y-4">
-        <h2 className="text-xl font-semibold">Payment Allocation</h2>
+      {activeTab === "payables" && (
+        <div className="space-y-6">
+          <SupplierPayableTable payables={supplierPayables} />
+        </div>
+      )}
 
-        <PaymentAllocationForm
-          payments={payments}
-          outstandingDocuments={outstandingDocuments}
-        />
+      {activeTab === "receivables" && (
+        <div className="space-y-6">
+          <CustomerReceivableTable receivables={customerReceivables} />
+        </div>
+      )}
 
-        <PaymentAllocationTable payments={payments} />
-      </section>
-
-      {/* Payment Channels & Settlement */}
-      <section id="payments-channels" className="space-y-4">
-        <PaymentChannelsPage />
-      </section>
-
-      {/* Supplier Payables */}
-      <section id="payments-payables" className="space-y-4">
-        <h2 className="text-xl font-semibold">Supplier Payables</h2>
-
-        <SupplierPayableTable payables={supplierPayables} />
-      </section>
-
-      {/* Customer Receivables */}
-      <section id="payments-receivables" className="space-y-4">
-        <h2 className="text-xl font-semibold">Customer Receivables</h2>
-
-        <CustomerReceivableTable receivables={customerReceivables} />
-      </section>
+      {activeTab === "channels" && (
+        <div className="space-y-6">
+          <PaymentChannelsPage />
+        </div>
+      )}
     </div>
   );
 }

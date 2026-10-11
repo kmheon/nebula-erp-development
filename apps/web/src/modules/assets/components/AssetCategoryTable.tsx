@@ -1,6 +1,6 @@
+import { AppBadge } from "../../../components/ui";
 import type {
   AssetCategory,
-  AssetCategoryStatus,
 } from "../types/asset.types";
 
 type AssetCategoryTableProps = {
@@ -9,44 +9,41 @@ type AssetCategoryTableProps = {
   onDelete?: (id: string) => void;
 };
 
-function statusClass(status: AssetCategoryStatus): string {
-  return status === "active"
-    ? "rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700"
-    : "rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700";
-}
-
 export default function AssetCategoryTable({
   categories,
   onEdit,
   onDelete,
 }: AssetCategoryTableProps) {
   return (
-    <div className="surface overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-3 text-left">Name</th>
-            <th className="p-3 text-left">Description</th>
-            <th className="p-3 text-left">Status</th>
-            <th className="p-3 text-right">Actions</th>
+    <div className="surface overflow-hidden rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)]">
+      <table className="w-full text-sm">
+        <thead className="bg-[var(--nebula-surface-muted)] text-[var(--nebula-text-secondary)]">
+          <tr className="border-b border-[var(--nebula-border)]">
+            <th className="p-3.5 text-left font-semibold">Name</th>
+            <th className="p-3.5 text-left font-semibold">Description</th>
+            <th className="p-3.5 text-left font-semibold">Status</th>
+            <th className="p-3.5 text-right font-semibold">Actions</th>
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="divide-y divide-[var(--nebula-border)]">
           {categories.map((category) => (
-            <tr key={category.id} className="border-b">
-              <td className="p-3 font-medium">{category.name}</td>
-              <td className="p-3">{category.description || "-"}</td>
-              <td className="p-3">
-                <span className={statusClass(category.status)}>
+            <tr key={category.id} className="transition-colors hover:bg-[var(--nebula-surface-hover)]">
+              <td className="p-3.5 font-medium text-[var(--nebula-text-primary)]">{category.name}</td>
+              <td className="p-3.5 text-[var(--nebula-text-secondary)]">{category.description || "-"}</td>
+              <td className="p-3.5">
+                <AppBadge
+                  tone={category.status === "active" ? "success" : "neutral"}
+                  size="sm"
+                >
                   {category.status}
-                </span>
+                </AppBadge>
               </td>
-              <td className="p-3 text-right">
+              <td className="p-3.5 text-right">
                 <div className="flex justify-end gap-2">
                   {onEdit && (
                     <button
-                      className="rounded border px-2 py-1 text-xs"
+                      className="rounded-lg border border-[var(--nebula-border)] px-2.5 py-1 text-xs font-medium text-[var(--nebula-text-primary)] hover:bg-[var(--nebula-surface-muted)] transition-colors"
                       onClick={() => onEdit(category)}
                     >
                       Edit
@@ -54,7 +51,7 @@ export default function AssetCategoryTable({
                   )}
                   {onDelete && (
                     <button
-                      className="rounded border border-red-300 px-2 py-1 text-xs text-red-700"
+                      className="rounded-lg border border-[var(--nebula-danger)]/30 px-2.5 py-1 text-xs font-medium text-[var(--nebula-danger)] hover:bg-[var(--nebula-danger-bg)] transition-colors"
                       onClick={() => onDelete(category.id)}
                     >
                       Delete
@@ -67,11 +64,8 @@ export default function AssetCategoryTable({
 
           {categories.length === 0 && (
             <tr>
-              <td
-                colSpan={4}
-                className="p-8 text-center text-[var(--nebula-text-secondary)]"
-              >
-                No asset categories yet. Create one to get started.
+              <td colSpan={4} className="p-8 text-center text-[var(--nebula-text-secondary)]">
+                No asset categories registered.
               </td>
             </tr>
           )}

@@ -1,11 +1,10 @@
 import { useState } from "react";
+import { Settings, Palette } from "lucide-react";
 import ThemeSelector from "../../../theme/ThemeSelector";
 import SettingsPanel from "../components/SettingsPanel";
+import { AppPageHeader, AppTabs } from "../../../components/ui";
 
-import type {
-  SystemSetting,
-} from "../types/settings.types";
-
+import type { SystemSetting } from "../types/settings.types";
 
 const demoSettings: SystemSetting[] = [
   {
@@ -22,43 +21,25 @@ const demoSettings: SystemSetting[] = [
   },
 ];
 
-
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState<"general" | "themes">("general");
+  const [activeTab, setActiveTab] = useState<string>("general");
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--nebula-text-primary)]">
-            Settings Module
-          </h1>
-          <p className="mt-1 text-sm text-[var(--nebula-text-secondary)]">
-            Configure system preferences, enterprise properties, and appearance themes.
-          </p>
-        </div>
-      </div>
+      <AppPageHeader
+        title="Enterprise System Settings & Preferences"
+        subtitle="Configure organization metadata, default fiscal currency, system policies, and visual theme customization."
+      />
 
-      {/* Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-[var(--nebula-border)] pb-3">
-        {[
-          { id: "general", name: "General Settings" },
-          { id: "themes", name: "Themes & Branding" },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              activeTab === tab.id
-                ? "bg-[var(--nebula-primary)] text-white shadow-sm"
-                : "bg-[var(--nebula-surface)] border border-[var(--nebula-border)] hover:bg-[var(--nebula-surface-muted)] text-[var(--nebula-text-primary)]"
-            }`}
-          >
-            {tab.name}
-          </button>
-        ))}
-      </div>
+      <AppTabs
+        tabs={[
+          { id: "general", name: "General Settings", icon: <Settings size={16} /> },
+          { id: "themes", name: "Themes & Visual Branding", icon: <Palette size={16} /> },
+        ]}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        variant="pill"
+      />
 
       {activeTab === "general" && (
         <SettingsPanel

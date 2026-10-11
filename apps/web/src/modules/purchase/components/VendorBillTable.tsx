@@ -10,6 +10,7 @@ import { useState } from "react";
 import type { VendorBill, ThreeWayMatchResult } from "../types/matching.types";
 import type { PurchaseOrder, GoodsReceive } from "../types/purchase.types";
 import { useThreeWayMatchEvaluation } from "../hooks/useVendorBills";
+import { AppBadge } from "../../../components/ui";
 
 type VendorBillTableProps = {
   bills: VendorBill[];
@@ -53,52 +54,58 @@ export default function VendorBillTable({
 
   return (
     <div className="space-y-6">
-      <div className="surface overflow-hidden">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              <th className="p-3 text-left">Bill #</th>
-              <th className="p-3 text-left">Supplier</th>
-              <th className="p-3 text-left">PO Reference</th>
-              <th className="p-3 text-left">Date</th>
-              <th className="p-3 text-left">Status</th>
-              <th className="p-3 text-right">Total</th>
-              <th className="p-3 text-center">3-Way Match</th>
+      <div className="surface overflow-hidden rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)]">
+        <table className="w-full text-sm">
+          <thead className="bg-[var(--nebula-surface-muted)] text-[var(--nebula-text-secondary)]">
+            <tr className="border-b border-[var(--nebula-border)]">
+              <th className="p-3.5 text-left font-semibold">Bill #</th>
+              <th className="p-3.5 text-left font-semibold">Supplier</th>
+              <th className="p-3.5 text-left font-semibold">PO Reference</th>
+              <th className="p-3.5 text-left font-semibold">Date</th>
+              <th className="p-3.5 text-left font-semibold">Status</th>
+              <th className="p-3.5 text-right font-semibold">Total</th>
+              <th className="p-3.5 text-center font-semibold">3-Way Match</th>
             </tr>
           </thead>
-          <tbody>
-            {bills.map((bill) => {
-              let statusColor = "bg-gray-100 text-gray-700";
-              if (bill.status === "matched") statusColor = "bg-green-100 text-green-700";
-              if (bill.status === "discrepancy") statusColor = "bg-red-100 text-red-700";
-              if (bill.status === "approved") statusColor = "bg-blue-100 text-blue-700";
-
-              return (
-                <tr key={bill.id} className="border-b hover:bg-muted/30 transition-colors">
-                  <td className="p-3 font-medium text-sm">{bill.billNumber}</td>
-                  <td className="p-3 text-sm text-muted-foreground">{bill.supplierId}</td>
-                  <td className="p-3 text-sm text-muted-foreground">{bill.purchaseOrderId}</td>
-                  <td className="p-3 text-sm text-muted-foreground">{bill.date}</td>
-                  <td className="p-3">
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium uppercase ${statusColor}`}>
-                      {bill.status}
-                    </span>
-                  </td>
-                  <td className="p-3 text-right font-medium text-sm">${bill.total.toFixed(2)}</td>
-                  <td className="p-3 text-center">
-                    <button
-                      onClick={() => handleRunMatch(bill)}
-                      className="px-3 py-1 bg-primary text-primary-foreground rounded text-xs font-medium hover:bg-primary/90 transition-colors"
-                    >
-                      Run Match
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+          <tbody className="divide-y divide-[var(--nebula-border)]">
+            {bills.map((bill) => (
+              <tr key={bill.id} className="transition-colors hover:bg-[var(--nebula-surface-hover)]">
+                <td className="p-3.5 font-medium text-[var(--nebula-text-primary)] font-mono text-xs">{bill.billNumber}</td>
+                <td className="p-3.5 text-[var(--nebula-text-secondary)]">{bill.supplierId}</td>
+                <td className="p-3.5 text-[var(--nebula-text-secondary)] font-mono text-xs">{bill.purchaseOrderId}</td>
+                <td className="p-3.5 text-[var(--nebula-text-secondary)] font-mono text-xs">{bill.date}</td>
+                <td className="p-3.5">
+                  <AppBadge
+                    tone={
+                      bill.status === "matched"
+                        ? "success"
+                        : bill.status === "discrepancy"
+                        ? "danger"
+                        : bill.status === "approved"
+                        ? "primary"
+                        : "neutral"
+                    }
+                    size="sm"
+                  >
+                    {bill.status}
+                  </AppBadge>
+                </td>
+                <td className="p-3.5 text-right font-mono font-medium text-[var(--nebula-text-primary)]">
+                  ${bill.total.toFixed(2)}
+                </td>
+                <td className="p-3.5 text-center">
+                  <button
+                    onClick={() => handleRunMatch(bill)}
+                    className="rounded-lg bg-[var(--nebula-primary)] px-3 py-1 text-xs font-medium text-white hover:opacity-90 transition-opacity"
+                  >
+                    Run Match
+                  </button>
+                </td>
+              </tr>
+            ))}
             {bills.length === 0 && (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                <td colSpan={7} className="p-8 text-center text-[var(--nebula-text-secondary)]">
                   No vendor bills recorded.
                 </td>
               </tr>
@@ -109,13 +116,13 @@ export default function VendorBillTable({
 
       {/* 3-Way Match Audit Modal / Panel */}
       {selectedBill && matchResult && (
-        <div className="surface p-6 space-y-4 border border-primary/20 bg-muted/10 rounded-lg">
+        <div className="surface p-6 space-y-4 rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)] bg-[var(--nebula-surface)]">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-bold">
+              <h3 className="text-lg font-bold text-[var(--nebula-text-primary)]">
                 3-Way Match Audit: Bill {selectedBill.billNumber}
               </h3>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-[var(--nebula-text-secondary)]">
                 Checked at: {new Date(matchResult.checkedAt).toLocaleString()} | Tolerance: {tolerance}%
               </p>
             </div>
@@ -124,14 +131,14 @@ export default function VendorBillTable({
                 setSelectedBill(null);
                 setMatchResult(null);
               }}
-              className="text-muted-foreground hover:text-foreground text-sm font-semibold"
+              className="text-[var(--nebula-text-secondary)] hover:text-[var(--nebula-text-primary)] text-sm font-semibold transition-colors"
             >
               ✕ Close
             </button>
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">Set Tolerance %:</span>
+            <span className="text-sm font-medium text-[var(--nebula-text-primary)]">Set Tolerance %:</span>
             <input
               type="number"
               step="0.1"
@@ -139,11 +146,11 @@ export default function VendorBillTable({
               max="5"
               value={tolerance}
               onChange={(e) => setTolerance(parseFloat(e.target.value) || 0)}
-              className="px-3 py-1 border rounded w-24 text-sm"
+              className="px-3 py-1 border border-[var(--nebula-border)] bg-[var(--nebula-surface)] text-[var(--nebula-text-primary)] rounded-lg w-24 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--nebula-primary)]"
             />
             <button
               onClick={() => handleRunMatch(selectedBill)}
-              className="px-3 py-1 bg-secondary text-secondary-foreground rounded text-xs font-medium"
+              className="px-3 py-1 bg-[var(--nebula-surface-muted)] text-[var(--nebula-text-primary)] border border-[var(--nebula-border)] rounded-lg text-xs font-medium hover:bg-[var(--nebula-surface-hover)] transition-colors"
             >
               Recalculate
             </button>
@@ -151,41 +158,38 @@ export default function VendorBillTable({
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold text-sm">Match Status:</h4>
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
-                  matchResult.status === "matched"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
-                }`}
+              <h4 className="font-semibold text-sm text-[var(--nebula-text-primary)]">Match Status:</h4>
+              <AppBadge
+                tone={matchResult.status === "matched" ? "success" : "danger"}
+                size="md"
               >
                 {matchResult.status}
-              </span>
+              </AppBadge>
             </div>
 
             {matchResult.discrepancies.length > 0 ? (
               <div className="space-y-2 mt-4">
-                <h5 className="text-xs font-semibold uppercase text-red-600">Discrepancies Detected:</h5>
+                <h5 className="text-xs font-semibold uppercase text-[var(--nebula-danger)]">Discrepancies Detected:</h5>
                 <div className="space-y-2">
                   {matchResult.discrepancies.map((disc, idx) => (
-                    <div key={idx} className="p-3 bg-red-50 border border-red-200 rounded text-sm space-y-1">
-                      <div className="font-semibold text-red-900">{disc.productName}</div>
-                      <div className="text-xs text-red-700 grid grid-cols-3 gap-2">
+                    <div key={idx} className="p-3.5 bg-[var(--nebula-danger-bg)] border border-[var(--nebula-danger)]/20 rounded-lg text-sm space-y-1">
+                      <div className="font-semibold text-[var(--nebula-danger)]">{disc.productName}</div>
+                      <div className="text-xs text-[var(--nebula-text-secondary)] grid grid-cols-3 gap-2">
                         <div>PO Qty: {disc.poQuantity}</div>
                         <div>GRN Qty: {disc.grnQuantity}</div>
                         <div>Billed Qty: {disc.billedQuantity}</div>
                       </div>
-                      <div className="text-xs text-red-700 grid grid-cols-2 gap-2">
+                      <div className="text-xs text-[var(--nebula-text-secondary)] grid grid-cols-2 gap-2">
                         <div>PO Unit Price: ${disc.poUnitPrice.toFixed(2)}</div>
                         <div>Billed Unit Price: ${disc.billedUnitPrice.toFixed(2)}</div>
                       </div>
-                      <p className="text-xs font-medium text-red-800 mt-1">{disc.discrepancyDetails}</p>
+                      <p className="text-xs font-medium text-[var(--nebula-danger)] mt-1">{disc.discrepancyDetails}</p>
                     </div>
                   ))}
                 </div>
               </div>
             ) : (
-              <p className="p-4 bg-green-50 border border-green-200 text-green-800 rounded text-sm font-medium">
+              <p className="p-4 bg-[var(--nebula-success-bg)] border border-[var(--nebula-success)]/20 text-[var(--nebula-success)] rounded-lg text-sm font-medium">
                 All line items perfectly matched across Purchase Order, Goods Receipt Note, and Vendor Bill within tolerance!
               </p>
             )}

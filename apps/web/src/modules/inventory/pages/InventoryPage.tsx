@@ -18,6 +18,7 @@ import { BatchSerialTracker } from "../components/BatchSerialTracker";
 import { ReceivingDispatchDock } from "../components/ReceivingDispatchDock";
 import { CycleCountWorkspace } from "../components/CycleCountWorkspace";
 import { InventoryReportingDashboard } from "../components/InventoryReportingDashboard";
+import { AppPageHeader, AppTabs } from "../../../components/ui";
 
 import type {
   StockLedgerEntry,
@@ -109,48 +110,28 @@ export default function InventoryPage() {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header Bar */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-[var(--nebula-border)] pb-6">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--nebula-text)]">
-            Enterprise Inventory & Warehouse Management
-          </h1>
-          <p className="text-sm text-[var(--nebula-muted)] mt-1">
-            Multi-warehouse zones, bin locations, batch/serial tracking, FEFO picking, cycle counts, and valuation analytics.
-          </p>
-        </div>
+      <AppPageHeader
+        title="Enterprise Inventory & Warehouse Management"
+        subtitle="Multi-warehouse zones, bin locations, batch/serial tracking, FEFO picking, cycle counts, and valuation analytics."
+      />
 
-        {/* Tab Navigation */}
-        <div className="flex items-center gap-1 bg-[var(--nebula-surface)] p-1.5 rounded-xl border border-[var(--nebula-border)] overflow-x-auto">
-          {[
-            { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-            { id: "products", label: "Products & Stock", icon: Package },
-            { id: "warehouses", label: "Warehouses & Bins", icon: WarehouseIcon },
-            { id: "tracking", label: "Batch & Serials", icon: QrCode },
-            { id: "docks", label: "Receiving & Dispatch", icon: Truck },
-            { id: "audit", label: "Cycle Count", icon: ClipboardCheck },
-            { id: "reports", label: "Valuation & Reports", icon: BarChart3 },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
-                  isActive
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "text-[var(--nebula-text)] hover:bg-[var(--nebula-surface-hover)]"
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Tab Navigation */}
+      <AppTabs
+        tabs={[
+          { id: "dashboard", name: "Dashboard", icon: <LayoutDashboard size={16} /> },
+          { id: "products", name: "Products & Stock", icon: <Package size={16} /> },
+          { id: "warehouses", name: "Warehouses & Bins", icon: <WarehouseIcon size={16} /> },
+          { id: "tracking", name: "Batch & Serials", icon: <QrCode size={16} /> },
+          { id: "docks", name: "Receiving & Dispatch", icon: <Truck size={16} /> },
+          { id: "audit", name: "Cycle Count", icon: <ClipboardCheck size={16} /> },
+          { id: "reports", name: "Valuation & Reports", icon: <BarChart3 size={16} /> },
+        ]}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        variant="pill"
+      />
 
       {/* Main Tab Content */}
       {activeTab === "dashboard" && (

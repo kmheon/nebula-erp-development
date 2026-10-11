@@ -1,4 +1,5 @@
-import type { Contact, ContactRole } from "../types/contact.types";
+import { AppBadge } from "../../../components/ui";
+import type { Contact } from "../types/contact.types";
 
 type ContactTableProps = {
   contacts: Contact[];
@@ -6,72 +7,76 @@ type ContactTableProps = {
   onSelect?: (contact: Contact) => void;
 };
 
-function statusClass(status: Contact["status"]): string {
-  return status === "active"
-    ? "rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700"
-    : "rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700";
-}
-
-function roleBadge(role: ContactRole): string {
-  const base = "rounded px-2 py-1 text-xs font-medium mr-1";
-  return role === "customer"
-    ? `${base} bg-blue-100 text-blue-700`
-    : `${base} bg-purple-100 text-purple-700`;
-}
-
 export default function ContactTable({
   contacts,
   selectedContactId,
   onSelect,
 }: ContactTableProps) {
   return (
-    <div className="surface overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-3 text-left">Name</th>
-            <th className="p-3 text-left">Company</th>
-            <th className="p-3 text-left">Roles</th>
-            <th className="p-3 text-left">Phone</th>
-            <th className="p-3 text-left">Email</th>
-            <th className="p-3 text-left">Status</th>
+    <div className="surface overflow-hidden rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)]">
+      <table className="w-full text-sm">
+        <thead className="bg-[var(--nebula-surface-muted)] text-[var(--nebula-text-secondary)]">
+          <tr className="border-b border-[var(--nebula-border)]">
+            <th className="p-3.5 text-left font-semibold">Name</th>
+            <th className="p-3.5 text-left font-semibold">Company</th>
+            <th className="p-3.5 text-left font-semibold">Roles</th>
+            <th className="p-3.5 text-left font-semibold">Phone</th>
+            <th className="p-3.5 text-left font-semibold">Email</th>
+            <th className="p-3.5 text-left font-semibold">Status</th>
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="divide-y divide-[var(--nebula-border)]">
           {contacts.map((contact) => (
             <tr
               key={contact.id}
-              className={`border-b cursor-pointer transition-colors ${
+              className={`cursor-pointer transition-colors ${
                 selectedContactId === contact.id
                   ? "bg-[var(--nebula-primary)]/10"
-                  : "hover:bg-[var(--nebula-surface-muted)]"
+                  : "hover:bg-[var(--nebula-surface-hover)]"
               }`}
               onClick={() => onSelect?.(contact)}
             >
-              <td className="p-3 font-medium">{contact.name}</td>
+              <td className="p-3.5 font-medium text-[var(--nebula-text-primary)]">{contact.name}</td>
 
-              <td className="p-3">{contact.companyName || "-"}</td>
+              <td className="p-3.5 text-[var(--nebula-text-secondary)]">{contact.companyName || "-"}</td>
 
-              <td className="p-3">
-                {contact.roles.map((role) => (
-                  <span key={role} className={roleBadge(role)}>
-                    {role}
-                  </span>
-                ))}
+              <td className="p-3.5">
+                <div className="flex flex-wrap gap-1">
+                  {contact.roles.map((role) => (
+                    <AppBadge
+                      key={role}
+                      tone={role === "customer" ? "primary" : "secondary"}
+                      size="sm"
+                    >
+                      {role}
+                    </AppBadge>
+                  ))}
+                </div>
               </td>
 
-              <td className="p-3">{contact.phone || "-"}</td>
+              <td className="p-3.5 text-[var(--nebula-text-secondary)]">{contact.phone || "-"}</td>
 
-              <td className="p-3">{contact.email || "-"}</td>
+              <td className="p-3.5 text-[var(--nebula-text-secondary)]">{contact.email || "-"}</td>
 
-              <td className="p-3">
-                <span className={statusClass(contact.status)}>
+              <td className="p-3.5">
+                <AppBadge
+                  tone={contact.status === "active" ? "success" : "neutral"}
+                  size="sm"
+                >
                   {contact.status}
-                </span>
+                </AppBadge>
               </td>
             </tr>
           ))}
+
+          {contacts.length === 0 && (
+            <tr>
+              <td colSpan={6} className="p-8 text-center text-[var(--nebula-text-secondary)]">
+                No contacts found.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

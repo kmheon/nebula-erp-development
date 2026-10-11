@@ -1,64 +1,67 @@
+import { AppBadge } from "../../../components/ui";
 import type { PurchaseOrder } from "../types/purchase.types";
-
 
 type PurchaseOrderTableProps = {
   orders: PurchaseOrder[];
 };
 
-
-export default function PurchaseOrderTable({
-  orders,
-}: PurchaseOrderTableProps) {
+export default function PurchaseOrderTable({ orders }: PurchaseOrderTableProps) {
   return (
-    <div className="surface overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-3 text-left">PO Number</th>
-            <th className="p-3 text-left">Supplier</th>
-            <th className="p-3 text-left">Date</th>
-            <th className="p-3 text-left">Status</th>
-            <th className="p-3 text-left">Total</th>
+    <div className="surface overflow-hidden rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)]">
+      <table className="w-full text-sm">
+        <thead className="bg-[var(--nebula-surface-muted)] text-[var(--nebula-text-secondary)]">
+          <tr className="border-b border-[var(--nebula-border)]">
+            <th className="p-3.5 text-left font-semibold">PO Number</th>
+            <th className="p-3.5 text-left font-semibold">Supplier</th>
+            <th className="p-3.5 text-left font-semibold">Date</th>
+            <th className="p-3.5 text-left font-semibold">Status</th>
+            <th className="p-3.5 text-right font-semibold">Total</th>
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="divide-y divide-[var(--nebula-border)]">
           {orders.map((order) => (
-            <tr
-              key={order.id}
-              className="border-b"
-            >
-              <td className="p-3 font-medium">
+            <tr key={order.id} className="transition-colors hover:bg-[var(--nebula-surface-hover)]">
+              <td className="p-3.5 font-medium text-[var(--nebula-text-primary)] font-mono text-xs">
                 {order.orderNumber}
               </td>
 
-              <td className="p-3">
+              <td className="p-3.5 text-[var(--nebula-text-secondary)]">
                 {order.supplierId}
               </td>
 
-              <td className="p-3">{order.date}</td>
+              <td className="p-3.5 text-[var(--nebula-text-secondary)] font-mono text-xs">{order.date}</td>
 
-              <td className="p-3">
-                <span
-                  className={
+              <td className="p-3.5">
+                <AppBadge
+                  tone={
                     order.status === "received"
-                      ? "rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700"
+                      ? "success"
                       : order.status === "cancelled"
-                        ? "rounded bg-red-100 px-2 py-1 text-xs font-medium text-red-700"
-                        : order.status === "pending"
-                          ? "rounded bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700"
-                          : "rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600"
+                      ? "danger"
+                      : order.status === "pending"
+                      ? "warning"
+                      : "neutral"
                   }
+                  size="sm"
                 >
                   {order.status}
-                </span>
+                </AppBadge>
               </td>
 
-              <td className="p-3">
+              <td className="p-3.5 text-right font-mono font-medium text-[var(--nebula-text-primary)]">
                 ${order.total.toFixed(2)}
               </td>
             </tr>
           ))}
+
+          {orders.length === 0 && (
+            <tr>
+              <td colSpan={5} className="p-8 text-center text-[var(--nebula-text-secondary)]">
+                No purchase orders found.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

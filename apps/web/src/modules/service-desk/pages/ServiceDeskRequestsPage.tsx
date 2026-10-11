@@ -1,10 +1,9 @@
 import { useState } from "react";
-
 import { Plus } from "lucide-react";
-
 import { useServiceRequests } from "../hooks/useServiceDesk";
 import ServiceRequestList from "../components/ServiceRequestList";
 import NewRequestForm from "../components/NewRequestForm";
+import { AppPageHeader, AppButton } from "../../../components/ui";
 
 import type { ServiceRequest } from "../types/service-desk.types";
 
@@ -12,8 +11,7 @@ import type { ServiceRequest } from "../types/service-desk.types";
  * Service Desk — Requests.
  *
  * Lists all service requests with filtering, and reveals the New Request form
- * inline (Part 9 of the foundation). The form links customers to the existing
- * Sales source of truth — no duplicate contacts are created.
+ * inline. The form links customers to the existing Sales source of truth.
  */
 export default function ServiceDeskRequestsPage() {
   const { requests, addRequest } = useServiceRequests();
@@ -25,38 +23,28 @@ export default function ServiceDeskRequestsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold text-[var(--nebula-text-primary)]">
-            Service Requests
-          </h1>
-
-          <p className="text-[var(--nebula-text-secondary)]">
-            Triage, dispatch and track every service ticket.
-          </p>
-        </div>
-
-        {!showForm && (
-          <button
-            type="button"
-            onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 rounded-lg bg-[var(--nebula-primary)] px-4 py-2 text-sm font-semibold text-[var(--nebula-primary-foreground)] transition-opacity hover:opacity-90"
+    <div className="space-y-8">
+      <AppPageHeader
+        title="Service Requests & Ticket Triage"
+        subtitle="Triage, dispatch, and track every client service ticket with SLA monitoring."
+        actions={
+          <AppButton
+            variant="primary"
+            leftIcon={<Plus size={16} />}
+            onClick={() => setShowForm((prev) => !prev)}
           >
-            <Plus
-              size={16}
-              strokeWidth={2.5}
-            />
-            New Request
-          </button>
-        )}
-      </header>
+            {showForm ? "Close Form" : "New Service Request"}
+          </AppButton>
+        }
+      />
 
       {showForm && (
-        <NewRequestForm
-          onSubmit={handleCreate}
-          onCancel={() => setShowForm(false)}
-        />
+        <div className="rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)] bg-[var(--nebula-surface)] p-6">
+          <NewRequestForm
+            onSubmit={handleCreate}
+            onCancel={() => setShowForm(false)}
+          />
+        </div>
       )}
 
       <ServiceRequestList requests={requests} />

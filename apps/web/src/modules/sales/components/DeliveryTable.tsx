@@ -1,57 +1,63 @@
+import { AppBadge } from "../../../components/ui";
 import type { Delivery } from "../types/sales.types";
-
 
 type DeliveryTableProps = {
   deliveries: Delivery[];
 };
 
-
-export default function DeliveryTable({
-  deliveries,
-}: DeliveryTableProps) {
+export default function DeliveryTable({ deliveries }: DeliveryTableProps) {
   return (
-    <div className="surface overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-3 text-left">Sales Order</th>
-            <th className="p-3 text-left">Warehouse</th>
-            <th className="p-3 text-left">Date</th>
-            <th className="p-3 text-left">Status</th>
+    <div className="surface overflow-hidden rounded-[var(--nebula-radius-lg)] border border-[var(--nebula-border)]">
+      <table className="w-full text-sm">
+        <thead className="bg-[var(--nebula-surface-muted)] text-[var(--nebula-text-secondary)]">
+          <tr className="border-b border-[var(--nebula-border)]">
+            <th className="p-3.5 text-left font-semibold">Delivery Number</th>
+            <th className="p-3.5 text-left font-semibold">Sales Order</th>
+            <th className="p-3.5 text-left font-semibold">Warehouse</th>
+            <th className="p-3.5 text-left font-semibold">Date</th>
+            <th className="p-3.5 text-left font-semibold">Status</th>
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="divide-y divide-[var(--nebula-border)]">
           {deliveries.map((delivery) => (
-            <tr
-              key={delivery.id}
-              className="border-b"
-            >
-              <td className="p-3">
+            <tr key={delivery.id} className="transition-colors hover:bg-[var(--nebula-surface-hover)]">
+              <td className="p-3.5 font-medium text-[var(--nebula-text-primary)] font-mono text-xs">
+                {delivery.id}
+              </td>
+              <td className="p-3.5 text-[var(--nebula-text-secondary)] font-mono text-xs">
                 {delivery.salesOrderId}
               </td>
-
-              <td className="p-3">
+              <td className="p-3.5 text-[var(--nebula-text-secondary)]">
                 {delivery.warehouseId}
               </td>
-
-              <td className="p-3">{delivery.date}</td>
-
-              <td className="p-3">
-                <span
-                  className={
+              <td className="p-3.5 text-[var(--nebula-text-secondary)] font-mono text-xs">
+                {delivery.date}
+              </td>
+              <td className="p-3.5">
+                <AppBadge
+                  tone={
                     delivery.status === "delivered"
-                      ? "rounded bg-green-100 px-2 py-1 text-xs font-medium text-green-700"
+                      ? "success"
                       : delivery.status === "partial"
-                        ? "rounded bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700"
-                        : "rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600"
+                      ? "warning"
+                      : "neutral"
                   }
+                  size="sm"
                 >
                   {delivery.status}
-                </span>
+                </AppBadge>
               </td>
             </tr>
           ))}
+
+          {deliveries.length === 0 && (
+            <tr>
+              <td colSpan={5} className="p-8 text-center text-[var(--nebula-text-secondary)]">
+                No delivery dispatches recorded yet.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
